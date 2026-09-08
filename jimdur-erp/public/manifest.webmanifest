@@ -1,0 +1,33 @@
+{
+  "name": "JIMDUR ERP",
+  "short_name": "JIMDUR ERP",
+  "description": "Sistema de inventario, pedidos y despachos de Grupo JIMDUR.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f1f4f8",
+  "theme_color": "#102f52",
+  "lang": "es-PE",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/jimdur-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/jimdur-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Abrir JIMDUR ERP",
+      "short_name": "Abrir JIMDUR",
+      "url": "/"
+    }
+  ]
+}

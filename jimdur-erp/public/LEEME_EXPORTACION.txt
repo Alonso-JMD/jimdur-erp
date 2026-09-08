@@ -1,0 +1,27 @@
+JIMDUR ERP - EXPORTACIÓN DESDE SQL SERVER
+==========================================
+
+1. Extrae completamente JIMDUR_EXPORTADOR_SQL.zip.
+2. En la PC donde funciona el programa JIMDUR, ejecuta JIMDUR_EXPORTAR.cmd.
+   La ventana permanecerá abierta para mostrar el resultado o el error.
+3. El exportador leerá la conexión guardada en JIMDUR y consultará:
+   - UNIDADES
+   - ALMACENES
+   - PRODUCTOS
+   - STOCK
+4. Se creará en el Escritorio un archivo JIMDUR_EXPORT_*.json.
+5. Abre JIMDUR ERP y entra a SISTEMA > Copias y migración.
+6. Pulsa IMPORTAR ARCHIVO y selecciona el JSON.
+
+SEGURIDAD
+- El proceso es de solo lectura: no modifica SQL Server.
+- No exporta contraseñas, hashes, sales, tokens ni secretos.
+- El archivo contiene información comercial e inventario. Protégelo y
+  elimínalo de la PC cuando la migración haya concluido.
+
+Si el servidor no se detecta automáticamente, el exportador solicitará
+el nombre del servidor SQL. La base predeterminada es CONTROL_INVENTARIO.
+
+SOPORTE
+- Si aparece un error, no cierres la ventana: toma una foto del mensaje.
+- Ejecuta siempre JIMDUR_EXPORTAR.cmd, no abras directamente el archivo PS1.

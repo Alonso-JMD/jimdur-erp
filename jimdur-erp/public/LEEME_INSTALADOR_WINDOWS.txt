@@ -1,0 +1,14 @@
+JIMDUR ERP - INSTALADOR PARA WINDOWS
+====================================
+
+1. Extrae TODO el contenido de JIMDUR_INSTALADOR_WINDOWS.zip en una carpeta.
+2. Haz doble clic en INSTALAR_JIMDUR_WINDOWS.cmd.
+3. Windows creara un acceso de JIMDUR ERP en el Escritorio y en el menu Inicio.
+4. La aplicacion se abrira en una ventana independiente usando Microsoft Edge o Google Chrome.
+
+No requiere permisos de administrador.
+Los datos permanecen centralizados en la base de datos en la nube; este instalador no copia la base de datos al equipo.
+Cada persona debe ingresar con su propio usuario y contrasena JIMDUR.
+
+Direccion del sistema: reemplaza la URL de Vercel en
+INSTALAR_JIMDUR_WINDOWS.ps1 o define la variable JIMDUR_APP_URL antes de ejecutarlo.
