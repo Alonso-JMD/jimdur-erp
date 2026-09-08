@@ -1,0 +1,5 @@
+# Material de procedencia y restauración local; no es necesario en el bundle
+# de ejecución de Vercel. La copia completa permanece en el ZIP del proyecto.
+archive/
+data/live-db/
+tests/

@@ -1,0 +1,20 @@
+JIMDUR ERP — procedencia de la copia
+
+Site: https://jimdur-web.soporteia711.chatgpt.site
+Site version: 43
+Source commit: 4ea1b00f823765f4082b8892b0e9b7498db3f642
+Source repository branch: main
+Tracked source files in the recovered Git tree: 72
+
+La copia fue obtenida del repositorio de código vinculado al Site, no de una
+reconstrucción visual del navegador. El archivo .git no se incluye en el ZIP de
+entrega; el commit anterior permite verificar la procedencia en el repositorio
+original si se conserva el acceso.
+
+## Portado incluido
+
+La raíz de esta entrega es la versión adaptada a Next.js + Vercel + Neon. El
+adaptador PostgreSQL y los scripts de restauración están en `db/` y `scripts/`.
+Los archivos originales reemplazados se conservan en
+`archive/original-source-overrides/`; la infraestructura Cloudflare/D1 original
+está en `archive/cloudflare-original/`.
