@@ -234,6 +234,10 @@ async function verifyPassword(
 }
 
 async function ensureSystemDefaults() {
+  const existingWarehouses = await firstRow<{ total: number }>(
+    "SELECT COUNT(*) total FROM warehouses",
+  );
+  if (asNumber(existingWarehouses?.total) > 0) return;
   await getRawDb().batch([
     statement(
       "INSERT OR IGNORE INTO warehouses (code,name,active) VALUES ('ALM-PRI','ALMACÉN PRINCIPAL',1)",
@@ -759,7 +763,7 @@ export async function getSnapshot(user: AppUser): Promise<Snapshot> {
       "SELECT s.id,s.product_id,p.code,p.name,p.unit,COALESCE(p.location,'') location,p.minimum_stock,s.warehouse_id,w.name warehouse,s.physical,s.reserved,s.damaged FROM stock s JOIN products p ON p.id=s.product_id JOIN warehouses w ON w.id=s.warehouse_id WHERE p.active=1 ORDER BY p.name,w.name",
     ),
     allRows(
-      "SELECT w.id,w.code,w.name,w.active,COUNT(DISTINCT CASE WHEN s.physical>0 THEN s.product_id END) products_with_stock,COALESCE(SUM(s.physical),0) physical,COALESCE(SUM(s.reserved),0) reserved,COALESCE(SUM(s.damaged),0) damaged FROM warehouses w LEFT JOIN stock s ON s.warehouse_id=w.id GROUP BY w.id ORDER BY w.id",
+      "SELECT w.id,w.code,w.name,w.active,COUNT(DISTINCT CASE WHEN s.physical>0 THEN s.product_id END) products_with_stock,COALESCE(SUM(s.physical),0) physical,COALESCE(SUM(s.reserved),0) reserved,COALESCE(SUM(s.damaged),0) damaged FROM warehouses w LEFT JOIN stock s ON s.warehouse_id=w.id WHERE NOT (w.legacy_id IS NULL AND w.code IN ('ALM-PRI','ALM-SEC') AND EXISTS (SELECT 1 FROM warehouses imported WHERE imported.legacy_id IS NOT NULL)) GROUP BY w.id ORDER BY w.id",
     ),
     allRows(
       "SELECT m.id,m.occurred_at,m.type,m.document,m.product_id,p.name product,p.code,m.quantity,m.warehouse_id,w.name warehouse,COALESCE(m.notes,'') notes,COALESCE(m.user_email,'') user_email FROM movements m JOIN products p ON p.id=m.product_id JOIN warehouses w ON w.id=m.warehouse_id ORDER BY m.occurred_at DESC,m.id DESC LIMIT 1000",
