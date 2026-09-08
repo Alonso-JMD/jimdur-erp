@@ -1,0 +1,35 @@
+{
+  "source_site": "https://jimdur-web.soporteia711.chatgpt.site",
+  "project_id": "appgprj_6a89c4e104d08191ab299791d464d358",
+  "binding": "DB",
+  "captured_at": "2026-09-08T14:38:19Z",
+  "note": "Read-only paginated snapshot; authentication secrets and active sessions omitted.",
+  "total_rows_read": 2344,
+  "total_rows_saved": 2341,
+  "tables": [
+    {"name":"app_sessions","file":"app_sessions.json","rows_read":1,"rows_saved":0,"redacted_rows":1},
+    {"name":"app_users","file":"app_users.json","rows_read":1,"rows_saved":1,"redacted_rows":0},
+    {"name":"audit_logs","file":"audit_logs.json","rows_read":43,"rows_saved":43,"redacted_rows":0},
+    {"name":"auth_rate_limits","file":"auth_rate_limits.json","rows_read":2,"rows_saved":0,"redacted_rows":2},
+    {"name":"import_runs","file":"import_runs.json","rows_read":1,"rows_saved":1,"redacted_rows":0},
+    {"name":"movements","file":"movements.json","rows_read":144,"rows_saved":144,"redacted_rows":0},
+    {"name":"order_lines","file":"order_lines.json","rows_read":13,"rows_saved":13,"redacted_rows":0},
+    {"name":"order_product_aliases","file":"order_product_aliases.json","rows_read":0,"rows_saved":0,"redacted_rows":0},
+    {"name":"orders","file":"orders.json","rows_read":3,"rows_saved":3,"redacted_rows":0},
+    {"name":"products","file":"products.json","rows_read":1974,"rows_saved":1974,"redacted_rows":0},
+    {"name":"proforma_lines","file":"proforma_lines.json","rows_read":0,"rows_saved":0,"redacted_rows":0},
+    {"name":"proformas","file":"proformas.json","rows_read":0,"rows_saved":0,"redacted_rows":0},
+    {"name":"receipt_lines","file":"receipt_lines.json","rows_read":17,"rows_saved":17,"redacted_rows":0},
+    {"name":"receipts","file":"receipts.json","rows_read":8,"rows_saved":8,"redacted_rows":0},
+    {"name":"stock","file":"stock.json","rows_read":135,"rows_saved":135,"redacted_rows":0},
+    {"name":"transfer_lines","file":"transfer_lines.json","rows_read":0,"rows_saved":0,"redacted_rows":0},
+    {"name":"transfers","file":"transfers.json","rows_read":0,"rows_saved":0,"redacted_rows":0},
+    {"name":"warehouses","file":"warehouses.json","rows_read":2,"rows_saved":2,"redacted_rows":0}
+  ],
+  "redactions": {
+    "app_users": ["password_hash","password_salt","recovery_key_hash"],
+    "app_sessions": ["all rows; token_hash"],
+    "auth_rate_limits": ["all rows; key"]
+  }
+}
+

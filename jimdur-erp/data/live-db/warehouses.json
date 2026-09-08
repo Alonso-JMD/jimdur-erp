@@ -1,0 +1,32 @@
+{
+  "table": "warehouses",
+  "extracted_at": "2026-09-08T14:38:19.581Z",
+  "columns": [
+    "id",
+    "legacy_id",
+    "code",
+    "name",
+    "active",
+    "created_at"
+  ],
+  "rows": [
+    {
+      "active": 1,
+      "code": "ALM-001",
+      "created_at": "2026-08-22 20:31:40",
+      "id": 9,
+      "legacy_id": 1,
+      "name": "ALMACEN PRINCIPAL"
+    },
+    {
+      "active": 1,
+      "code": "ALM-002",
+      "created_at": "2026-08-22 20:31:40",
+      "id": 10,
+      "legacy_id": 2,
+      "name": "ALMACEN SECUNDARIO"
+    }
+  ],
+  "redacted_columns": [],
+  "redacted_rows": 0
+}

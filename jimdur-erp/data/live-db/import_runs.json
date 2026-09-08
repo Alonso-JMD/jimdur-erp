@@ -1,0 +1,24 @@
+{
+  "table": "import_runs",
+  "extracted_at": "2026-09-08T14:39:15.089Z",
+  "columns": [
+    "id",
+    "imported_at",
+    "source_server",
+    "source_database",
+    "user_email",
+    "summary"
+  ],
+  "rows": [
+    {
+      "id": 1,
+      "imported_at": "2026-08-22 20:31:48",
+      "source_database": "CONTROL_INVENTARIO",
+      "source_server": "DESKTOP-0QC7NR1\\SQLEXPRESS",
+      "summary": "{\"warehouses\":2,\"products\":1969,\"stocks\":107,\"historicalOperations\":0}",
+      "user_email": "admin@jimdur.local"
+    }
+  ],
+  "redacted_columns": [],
+  "redacted_rows": 0
+}

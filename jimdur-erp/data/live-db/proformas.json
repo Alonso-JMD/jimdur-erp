@@ -1,0 +1,21 @@
+{
+  "table": "proformas",
+  "extracted_at": "2026-09-08T14:39:15.089Z",
+  "columns": [
+    "id",
+    "legacy_id",
+    "number",
+    "date",
+    "client",
+    "document",
+    "address",
+    "warehouse_id",
+    "payment_condition",
+    "status",
+    "user_email",
+    "created_at"
+  ],
+  "rows": [],
+  "redacted_columns": [],
+  "redacted_rows": 0
+}

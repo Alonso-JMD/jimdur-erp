@@ -1,0 +1,448 @@
+{
+  "table": "audit_logs",
+  "extracted_at": "2026-09-08T14:39:15.089Z",
+  "columns": [
+    "id",
+    "occurred_at",
+    "user_email",
+    "action",
+    "module",
+    "entity",
+    "record_key",
+    "detail"
+  ],
+  "rows": [
+    {
+      "action": "GUARDAR",
+      "detail": "{\"displayName\":\"ALONSO VEGA\",\"role\":\"ADMINISTRADOR\",\"active\":true,\"permissions\":[\"warehouses\",\"products\",\"operations\",\"store_orders\",\"reports\",\"inventory\",\"cancellations\",\"users\",\"imports\"]}",
+      "entity": "USUARIO",
+      "id": 1,
+      "module": "USUARIOS",
+      "occurred_at": "2026-08-22 18:05:04",
+      "record_key": "admin@jimdur.local",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "IMPORTAR",
+      "detail": "{\"warehouses\":2,\"products\":1969,\"stocks\":107,\"historicalOperations\":0}",
+      "entity": "SQL_SERVER",
+      "id": 2,
+      "module": "MIGRACION",
+      "occurred_at": "2026-08-22 20:31:48",
+      "record_key": "CONTROL_INVENTARIO",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CREAR",
+      "detail": "{\"action\":\"create_order\",\"date\":\"2026-08-22\",\"warehouseId\":9,\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"VENTA\",\"flowMode\":\"DESPACHO DIRECTO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"initialStatus\":\"EN PREPARACIÓN\",\"lines\":[{\"productId\":360,\"quantity\":2}]}",
+      "entity": "ORDEN",
+      "id": 3,
+      "module": "ORDENES",
+      "occurred_at": "2026-08-22 20:47:36",
+      "record_key": "OS-2026-000001",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CAMBIAR_ESTADO",
+      "detail": "{\"from\":\"EN PREPARACIÓN\",\"to\":\"LISTA\",\"reason\":\"\"}",
+      "entity": "ORDEN",
+      "id": 4,
+      "module": "ORDENES",
+      "occurred_at": "2026-08-22 20:48:33",
+      "record_key": "OS-2026-000001",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CAMBIAR_ESTADO",
+      "detail": "{\"from\":\"LISTA\",\"to\":\"CANCELADA\",\"reason\":\"si hay stock\"}",
+      "entity": "ORDEN",
+      "id": 5,
+      "module": "ORDENES",
+      "occurred_at": "2026-08-22 20:50:57",
+      "record_key": "OS-2026-000001",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "RECUPERAR_ACCESO",
+      "detail": "{\"method\":\"CODIGO_TEMPORAL_UNICO\"}",
+      "entity": "USUARIO",
+      "id": 6,
+      "module": "SEGURIDAD",
+      "occurred_at": "2026-08-22 21:45:14",
+      "record_key": "ADMIN",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "GUARDAR",
+      "detail": "{\"displayName\":\"ALONSO VEGA\",\"role\":\"ADMINISTRADOR\",\"active\":true,\"permissions\":[\"warehouses\",\"products\",\"operations\",\"store_orders\",\"reports\",\"inventory\",\"cancellations\",\"users\",\"imports\"]}",
+      "entity": "USUARIO",
+      "id": 7,
+      "module": "USUARIOS",
+      "occurred_at": "2026-08-22 21:53:26",
+      "record_key": "admin@jimdur.local",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CONFIRMAR",
+      "detail": "{\"action\":\"create_receipt\",\"date\":\"2026-08-21\",\"warehouseId\":9,\"originWarehouseId\":9,\"destinationWarehouseId\":10,\"supplier\":\"COOPORACION BJR\",\"source\":\"LIMA\",\"documentNumber\":\"GUIA N° T009-149443\",\"carrier\":\"\",\"client\":\"\",\"document\":\"\",\"address\":\"\",\"paymentCondition\":\"CONTADO\",\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"REPOSICIÓN\",\"flowMode\":\"PEDIDO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"lines\":[{\"productId\":1235,\"quantity\":100,\"damaged\":0,\"price\":75,\"expected\":100,\"received\":100}]}",
+      "entity": "RECEPCION",
+      "id": 8,
+      "module": "RECEPCIONES",
+      "occurred_at": "2026-08-22 22:03:26",
+      "record_key": "REC-2026-000001",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CONFIRMAR",
+      "detail": "{\"action\":\"create_receipt\",\"date\":\"2026-08-22\",\"warehouseId\":9,\"originWarehouseId\":9,\"destinationWarehouseId\":10,\"supplier\":\"MOTORCYKEL PERU\",\"source\":\"LIMA\",\"documentNumber\":\"GUIA N° T003-3102\",\"carrier\":\"\",\"client\":\"\",\"document\":\"\",\"address\":\"\",\"paymentCondition\":\"CONTADO\",\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"REPOSICIÓN\",\"flowMode\":\"PEDIDO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"lines\":[{\"productId\":620,\"quantity\":30,\"damaged\":0,\"price\":22,\"expected\":30,\"received\":30},{\"productId\":687,\"quantity\":40,\"damaged\":0,\"price\":42,\"expected\":40,\"received\":40}]}",
+      "entity": "RECEPCION",
+      "id": 9,
+      "module": "RECEPCIONES",
+      "occurred_at": "2026-08-22 22:54:03",
+      "record_key": "REC-2026-000002",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CONFIRMAR",
+      "detail": "{\"action\":\"create_receipt\",\"date\":\"2026-08-22\",\"warehouseId\":9,\"originWarehouseId\":9,\"destinationWarehouseId\":10,\"supplier\":\"MOTORCYKEL PERU\",\"source\":\"LIMA\",\"documentNumber\":\"GUIA N° T003-3102\",\"carrier\":\"\",\"client\":\"\",\"document\":\"\",\"address\":\"\",\"paymentCondition\":\"CONTADO\",\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"REPOSICIÓN\",\"flowMode\":\"PEDIDO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"lines\":[{\"productId\":1301,\"quantity\":50,\"damaged\":0,\"price\":9,\"expected\":50,\"received\":50},{\"productId\":1714,\"quantity\":1000,\"damaged\":0,\"price\":2.5,\"expected\":1000,\"received\":1000},{\"productId\":1914,\"quantity\":16,\"damaged\":0,\"price\":155,\"expected\":16,\"received\":16},{\"productId\":1876,\"quantity\":30,\"damaged\":0,\"price\":30,\"expected\":30,\"received\":30},{\"productId\":1875,\"quantity\":30,\"damaged\":0,\"price\":25,\"expected\":30,\"received\":30}]}",
+      "entity": "RECEPCION",
+      "id": 10,
+      "module": "RECEPCIONES",
+      "occurred_at": "2026-08-24 14:22:27",
+      "record_key": "REC-2026-000003",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "EDITAR",
+      "detail": "{\"action\":\"update_product\",\"id\":1875,\"code\":\"00001180\",\"supplierCode\":\"\",\"name\":\"VENDIX CG150 3 PINES C/PIÑON \",\"brand\":\"TGAP\",\"application\":\"\",\"unit\":\"UND\",\"location\":\"\",\"cost\":25,\"minimum\":0,\"initialStock\":0,\"warehouseId\":9,\"active\":true}",
+      "entity": "PRODUCTO",
+      "id": 11,
+      "module": "PRODUCTOS",
+      "occurred_at": "2026-08-24 14:24:24",
+      "record_key": "1875",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "EDITAR",
+      "detail": "{\"action\":\"update_product\",\"id\":1876,\"code\":\"00000447\",\"supplierCode\":\"\",\"name\":\"VENDIX CG200 20P C/PIÑON\",\"brand\":\"TGAP\",\"application\":\"\",\"unit\":\"UND\",\"location\":\"\",\"cost\":30,\"minimum\":0,\"initialStock\":0,\"warehouseId\":9,\"active\":true}",
+      "entity": "PRODUCTO",
+      "id": 12,
+      "module": "PRODUCTOS",
+      "occurred_at": "2026-08-24 14:25:29",
+      "record_key": "1876",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CONFIRMAR",
+      "detail": "{\"action\":\"create_receipt\",\"date\":\"2026-08-22\",\"warehouseId\":9,\"originWarehouseId\":9,\"destinationWarehouseId\":10,\"supplier\":\"kigkol\",\"source\":\"lima\",\"documentNumber\":\"s/d\",\"carrier\":\"\",\"client\":\"\",\"document\":\"\",\"address\":\"\",\"paymentCondition\":\"CONTADO\",\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"REPOSICIÓN\",\"flowMode\":\"PEDIDO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"lines\":[{\"productId\":321,\"quantity\":5,\"damaged\":0,\"price\":17,\"expected\":5,\"received\":5}]}",
+      "entity": "RECEPCION",
+      "id": 13,
+      "module": "RECEPCIONES",
+      "occurred_at": "2026-08-24 16:09:50",
+      "record_key": "REC-2026-000004",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "ELIMINAR",
+      "detail": "{\"id\":4,\"warehouseId\":9,\"reversedLines\":[{\"productId\":321,\"product\":\"ABRAZADERA DE MUELLE U RCC JGO\",\"physical\":5,\"damaged\":0}]}",
+      "entity": "RECEPCION",
+      "id": 14,
+      "module": "RECEPCIONES",
+      "occurred_at": "2026-08-24 16:11:02",
+      "record_key": "REC-2026-000004",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CREAR",
+      "detail": "{\"action\":\"create_order\",\"date\":\"2026-08-22\",\"warehouseId\":9,\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"REPOSICIÓN\",\"flowMode\":\"DESPACHO DIRECTO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"initialStatus\":\"EN PREPARACIÓN\",\"lines\":[{\"productId\":1235,\"quantity\":5},{\"productId\":1714,\"quantity\":20},{\"productId\":1301,\"quantity\":10},{\"productId\":620,\"quantity\":5},{\"productId\":687,\"quantity\":10},{\"productId\":1875,\"quantity\":10},{\"productId\":1876,\"quantity\":5},{\"productId\":1914,\"quantity\":4}]}",
+      "entity": "ORDEN",
+      "id": 15,
+      "module": "ORDENES",
+      "occurred_at": "2026-08-24 16:16:59",
+      "record_key": "OS-2026-000002",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CAMBIAR_ESTADO",
+      "detail": "{\"from\":\"EN PREPARACIÓN\",\"to\":\"LISTA\",\"reason\":\"\"}",
+      "entity": "ORDEN",
+      "id": 16,
+      "module": "ORDENES",
+      "occurred_at": "2026-08-24 16:17:31",
+      "record_key": "OS-2026-000002",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CAMBIAR_ESTADO",
+      "detail": "{\"from\":\"LISTA\",\"to\":\"DESPACHADA\",\"reason\":\"\"}",
+      "entity": "ORDEN",
+      "id": 17,
+      "module": "ORDENES",
+      "occurred_at": "2026-08-24 16:17:43",
+      "record_key": "OS-2026-000002",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CAMBIAR_ESTADO",
+      "detail": "{\"from\":\"DESPACHADA\",\"to\":\"RECIBIDA\",\"reason\":\"\"}",
+      "entity": "ORDEN",
+      "id": 18,
+      "module": "ORDENES",
+      "occurred_at": "2026-08-24 16:18:08",
+      "record_key": "OS-2026-000002",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "EDITAR",
+      "detail": "{\"action\":\"update_product\",\"id\":620,\"code\":\"20230113133505\",\"supplierCode\":\"\",\"name\":\"CAJA DE FILTRO DE AIRE WX150/cgl125- SYKKEL\",\"brand\":\"\",\"application\":\"\",\"unit\":\"UND\",\"location\":\"\",\"cost\":22,\"minimum\":0,\"initialStock\":0,\"warehouseId\":9,\"active\":true}",
+      "entity": "PRODUCTO",
+      "id": 19,
+      "module": "PRODUCTOS",
+      "occurred_at": "2026-08-24 16:57:13",
+      "record_key": "620",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "AJUSTAR",
+      "detail": "{\"action\":\"adjust_stock\",\"productId\":584,\"warehouseId\":9,\"newPhysical\":330,\"notes\":\"Conteo físico\"}",
+      "entity": "STOCK",
+      "id": 20,
+      "module": "INVENTARIO",
+      "occurred_at": "2026-08-25 16:25:40",
+      "record_key": "AJ-2026-140679",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CONFIRMAR",
+      "detail": "{\"action\":\"create_receipt\",\"date\":\"2026-08-25\",\"warehouseId\":9,\"originWarehouseId\":9,\"destinationWarehouseId\":10,\"supplier\":\"TECNIMOTORS\",\"source\":\"LA VICTORIA - LIMA\",\"documentNumber\":\"GUIA N° T911-0035135\",\"carrier\":\"\",\"client\":\"\",\"document\":\"\",\"address\":\"\",\"paymentCondition\":\"CONTADO\",\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"REPOSICIÓN\",\"flowMode\":\"PEDIDO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"lines\":[{\"productId\":710,\"quantity\":100,\"damaged\":0,\"price\":12,\"expected\":100,\"received\":100},{\"productId\":724,\"quantity\":100,\"damaged\":0,\"price\":12.5,\"expected\":100,\"received\":100},{\"productId\":725,\"quantity\":20,\"damaged\":0,\"price\":15,\"expected\":20,\"received\":20},{\"productId\":1375,\"quantity\":200,\"damaged\":0,\"price\":4,\"expected\":200,\"received\":200}]}",
+      "entity": "RECEPCION",
+      "id": 21,
+      "module": "RECEPCIONES",
+      "occurred_at": "2026-08-25 17:18:25",
+      "record_key": "REC-2026-000004",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "EDITAR",
+      "detail": "{\"action\":\"update_product\",\"id\":1375,\"code\":\"20230707102532\",\"supplierCode\":\"\",\"name\":\"PIÑON DE ARRASTRE 14T TECNI\",\"brand\":\"\",\"application\":\"\",\"unit\":\"UND\",\"location\":\"\",\"cost\":4,\"minimum\":0,\"initialStock\":0,\"warehouseId\":9,\"active\":true}",
+      "entity": "PRODUCTO",
+      "id": 22,
+      "module": "PRODUCTOS",
+      "occurred_at": "2026-08-25 17:19:25",
+      "record_key": "1375",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CREAR",
+      "detail": "{\"action\":\"create_order\",\"date\":\"2026-08-25\",\"warehouseId\":9,\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"REPOSICIÓN\",\"flowMode\":\"DESPACHO DIRECTO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"initialStatus\":\"EN PREPARACIÓN\",\"lines\":[{\"productId\":710,\"quantity\":20},{\"productId\":724,\"quantity\":20},{\"productId\":1375,\"quantity\":100},{\"productId\":725,\"quantity\":20}]}",
+      "entity": "ORDEN",
+      "id": 23,
+      "module": "ORDENES",
+      "occurred_at": "2026-08-25 17:28:17",
+      "record_key": "OS-2026-000003",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CAMBIAR_ESTADO",
+      "detail": "{\"from\":\"EN PREPARACIÓN\",\"to\":\"LISTA\",\"reason\":\"\"}",
+      "entity": "ORDEN",
+      "id": 24,
+      "module": "ORDENES",
+      "occurred_at": "2026-08-25 17:28:22",
+      "record_key": "OS-2026-000003",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CAMBIAR_ESTADO",
+      "detail": "{\"from\":\"LISTA\",\"to\":\"DESPACHADA\",\"reason\":\"\"}",
+      "entity": "ORDEN",
+      "id": 25,
+      "module": "ORDENES",
+      "occurred_at": "2026-08-25 17:28:31",
+      "record_key": "OS-2026-000003",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CAMBIAR_ESTADO",
+      "detail": "{\"from\":\"DESPACHADA\",\"to\":\"RECIBIDA\",\"reason\":\"\"}",
+      "entity": "ORDEN",
+      "id": 26,
+      "module": "ORDENES",
+      "occurred_at": "2026-08-25 17:28:45",
+      "record_key": "OS-2026-000003",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "AJUSTAR",
+      "detail": "{\"action\":\"adjust_stock\",\"productId\":1646,\"warehouseId\":9,\"newPhysical\":60,\"notes\":\"Conteo físico\"}",
+      "entity": "STOCK",
+      "id": 27,
+      "module": "INVENTARIO",
+      "occurred_at": "2026-08-25 19:45:35",
+      "record_key": "AJ-2026-135699",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CONFIRMAR",
+      "detail": "{\"action\":\"create_receipt\",\"date\":\"2026-08-25\",\"warehouseId\":10,\"originWarehouseId\":9,\"destinationWarehouseId\":10,\"supplier\":\"CORPORACION BJR IMPORT\",\"source\":\"LIMA - IDEPENDENCIA\",\"documentNumber\":\"GUIA N° T009-149873\",\"carrier\":\"\",\"client\":\"\",\"address\":\"\",\"paymentCondition\":\"CONTADO\",\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"REPOSICIÓN\",\"flowMode\":\"PEDIDO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"lines\":[{\"productId\":1481,\"quantity\":200,\"damaged\":0,\"price\":7,\"expected\":200,\"received\":200}]}",
+      "entity": "RECEPCION",
+      "id": 28,
+      "module": "RECEPCIONES",
+      "occurred_at": "2026-08-25 21:14:38",
+      "record_key": "REC-000005",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CONFIRMAR",
+      "detail": "{\"action\":\"create_receipt\",\"date\":\"2026-08-25\",\"warehouseId\":10,\"originWarehouseId\":9,\"destinationWarehouseId\":10,\"supplier\":\"CORPORACION BJR IMPORT\",\"source\":\"INDEPENDENCIA - LIMA\",\"documentNumber\":\"GUIA N° T009-149873\",\"carrier\":\"\",\"client\":\"\",\"document\":\"\",\"address\":\"\",\"paymentCondition\":\"CONTADO\",\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"REPOSICIÓN\",\"flowMode\":\"PEDIDO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"lines\":[{\"productId\":1481,\"quantity\":200,\"damaged\":0,\"price\":7,\"expected\":200,\"received\":200}]}",
+      "entity": "RECEPCION",
+      "id": 29,
+      "module": "RECEPCIONES",
+      "occurred_at": "2026-08-25 21:34:05",
+      "record_key": "REC-000006",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CONFIRMAR",
+      "detail": "{\"action\":\"create_receipt\",\"date\":\"2026-08-25\",\"warehouseId\":10,\"originWarehouseId\":9,\"destinationWarehouseId\":10,\"supplier\":\"CORPORACION BJR IMPORT\",\"source\":\"INDEPENDECIA - LIMA\",\"documentNumber\":\"GUIA N° T009-149873\",\"carrier\":\"\",\"client\":\"\",\"document\":\"\",\"address\":\"\",\"paymentCondition\":\"CONTADO\",\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"REPOSICIÓN\",\"flowMode\":\"PEDIDO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"lines\":[{\"productId\":1103,\"quantity\":130,\"damaged\":0,\"price\":8,\"expected\":130,\"received\":130},{\"productId\":1311,\"quantity\":150,\"damaged\":0,\"price\":12,\"expected\":150,\"received\":150}]}",
+      "entity": "RECEPCION",
+      "id": 30,
+      "module": "RECEPCIONES",
+      "occurred_at": "2026-08-25 21:54:08",
+      "record_key": "REC-000007",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CONFIRMAR",
+      "detail": "{\"action\":\"create_receipt\",\"date\":\"2026-08-26\",\"warehouseId\":9,\"originWarehouseId\":9,\"destinationWarehouseId\":10,\"supplier\":\"VISTONY\",\"source\":\"PIURA\",\"documentNumber\":\"BOLETA N° B018-13098\",\"carrier\":\"\",\"client\":\"\",\"document\":\"\",\"address\":\"\",\"paymentCondition\":\"CONTADO\",\"destination\":\"TIENDA PRINCIPAL\",\"orderType\":\"REPOSICIÓN\",\"flowMode\":\"PEDIDO\",\"priority\":\"NORMAL\",\"notes\":\"\",\"lines\":[{\"productId\":1146,\"quantity\":6,\"damaged\":0,\"price\":210,\"expected\":6,\"received\":6}]}",
+      "entity": "RECEPCION",
+      "id": 31,
+      "module": "RECEPCIONES",
+      "occurred_at": "2026-08-26 19:22:49",
+      "record_key": "REC-000008",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "AJUSTAR",
+      "detail": "{\"action\":\"adjust_stock\",\"productId\":1680,\"warehouseId\":9,\"newPhysical\":67,\"notes\":\"Conteo físico\"}",
+      "entity": "STOCK",
+      "id": 32,
+      "module": "INVENTARIO",
+      "occurred_at": "2026-08-27 22:47:53",
+      "record_key": "AS-000003",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "EDITAR",
+      "detail": "{\"action\":\"update_product\",\"id\":1292,\"code\":\"00001329\",\"supplierCode\":\"\",\"name\":\"OJO DE AGUILA ROJO\",\"brand\":\"\",\"application\":\"\",\"unit\":\"UND\",\"location\":\"\",\"cost\":10,\"minimum\":0,\"initialStock\":0,\"warehouseId\":9,\"active\":true}",
+      "entity": "PRODUCTO",
+      "id": 33,
+      "module": "PRODUCTOS",
+      "occurred_at": "2026-08-27 22:49:56",
+      "record_key": "1292",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CREAR",
+      "detail": "{\"action\":\"create_product\",\"code\":\"JIM001\",\"supplierCode\":\"\",\"name\":\"OJO DE AGUILA AZUL\",\"brand\":\"\",\"application\":\"\",\"unit\":\"UND\",\"location\":\"\",\"cost\":0,\"minimum\":0,\"initialStock\":0,\"warehouseId\":9,\"active\":true}",
+      "entity": "PRODUCTO",
+      "id": 34,
+      "module": "PRODUCTOS",
+      "occurred_at": "2026-08-27 22:51:10",
+      "record_key": "JIM001",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CREAR",
+      "detail": "{\"action\":\"create_product\",\"code\":\"JIM002\",\"supplierCode\":\"\",\"name\":\"OJO DE AGUILA BLANCO\",\"brand\":\"\",\"application\":\"\",\"unit\":\"UND\",\"location\":\"\",\"cost\":0,\"minimum\":0,\"initialStock\":0,\"warehouseId\":9,\"active\":true}",
+      "entity": "PRODUCTO",
+      "id": 35,
+      "module": "PRODUCTOS",
+      "occurred_at": "2026-08-27 22:51:43",
+      "record_key": "JIM002",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CREAR",
+      "detail": "{\"action\":\"create_product\",\"code\":\"JIM003\",\"supplierCode\":\"\",\"name\":\"OJO DE AGUILA AMBAR\",\"brand\":\"\",\"application\":\"\",\"unit\":\"UND\",\"location\":\"\",\"cost\":0,\"minimum\":0,\"initialStock\":0,\"warehouseId\":9,\"active\":true}",
+      "entity": "PRODUCTO",
+      "id": 36,
+      "module": "PRODUCTOS",
+      "occurred_at": "2026-08-27 22:52:25",
+      "record_key": "JIM003",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CREAR",
+      "detail": "{\"action\":\"create_product\",\"code\":\"JIM004\",\"supplierCode\":\"\",\"name\":\"OJO DE AGUILA LILA\",\"brand\":\"\",\"application\":\"\",\"unit\":\"UND\",\"location\":\"\",\"cost\":0,\"minimum\":0,\"initialStock\":0,\"warehouseId\":9,\"active\":true}",
+      "entity": "PRODUCTO",
+      "id": 37,
+      "module": "PRODUCTOS",
+      "occurred_at": "2026-08-27 22:52:53",
+      "record_key": "JIM004",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "CREAR",
+      "detail": "{\"action\":\"create_product\",\"code\":\"JIM005\",\"supplierCode\":\"\",\"name\":\"OJO DE AGUILA VERDE\",\"brand\":\"\",\"application\":\"\",\"unit\":\"UND\",\"location\":\"\",\"cost\":0,\"minimum\":0,\"initialStock\":0,\"warehouseId\":9,\"active\":true}",
+      "entity": "PRODUCTO",
+      "id": 38,
+      "module": "PRODUCTOS",
+      "occurred_at": "2026-08-27 22:55:21",
+      "record_key": "JIM005",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "AJUSTAR",
+      "detail": "{\"action\":\"adjust_stock\",\"productId\":1974,\"warehouseId\":9,\"newPhysical\":155,\"notes\":\"Conteo físico\"}",
+      "entity": "STOCK",
+      "id": 39,
+      "module": "INVENTARIO",
+      "occurred_at": "2026-08-27 22:57:05",
+      "record_key": "AS-000004",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "AJUSTAR",
+      "detail": "{\"action\":\"adjust_stock\",\"productId\":1292,\"warehouseId\":9,\"newPhysical\":111,\"notes\":\"Conteo físico\"}",
+      "entity": "STOCK",
+      "id": 40,
+      "module": "INVENTARIO",
+      "occurred_at": "2026-08-27 22:57:38",
+      "record_key": "AS-000005",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "AJUSTAR",
+      "detail": "{\"action\":\"adjust_stock\",\"productId\":1149,\"warehouseId\":9,\"newPhysical\":120,\"notes\":\"Conteo físico\"}",
+      "entity": "STOCK",
+      "id": 41,
+      "module": "INVENTARIO",
+      "occurred_at": "2026-08-27 22:59:36",
+      "record_key": "AS-000006",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "AJUSTAR",
+      "detail": "{\"action\":\"adjust_stock\",\"productId\":1122,\"warehouseId\":9,\"newPhysical\":58,\"notes\":\"Conteo físico\"}",
+      "entity": "STOCK",
+      "id": 42,
+      "module": "INVENTARIO",
+      "occurred_at": "2026-08-27 23:00:02",
+      "record_key": "AS-000007",
+      "user_email": "admin@jimdur.local"
+    },
+    {
+      "action": "AJUSTAR",
+      "detail": "{\"action\":\"adjust_stock\",\"productId\":1777,\"warehouseId\":9,\"newPhysical\":90,\"notes\":\"Conteo físico\"}",
+      "entity": "STOCK",
+      "id": 43,
+      "module": "INVENTARIO",
+      "occurred_at": "2026-08-27 23:00:38",
+      "record_key": "AS-000008",
+      "user_email": "admin@jimdur.local"
+    }
+  ],
+  "redacted_columns": [],
+  "redacted_rows": 0
+}

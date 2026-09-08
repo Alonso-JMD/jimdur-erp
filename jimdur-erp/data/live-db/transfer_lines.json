@@ -1,0 +1,13 @@
+{
+  "table": "transfer_lines",
+  "extracted_at": "2026-09-08T14:39:15.089Z",
+  "columns": [
+    "id",
+    "transfer_id",
+    "product_id",
+    "quantity"
+  ],
+  "rows": [],
+  "redacted_columns": [],
+  "redacted_rows": 0
+}

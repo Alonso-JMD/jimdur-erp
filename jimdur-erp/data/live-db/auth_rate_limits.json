@@ -1,0 +1,14 @@
+{
+  "table": "auth_rate_limits",
+  "extracted_at": "2026-09-08T14:39:15.089Z",
+  "columns": [
+    "attempts",
+    "window_started_at",
+    "locked_until"
+  ],
+  "rows": [],
+  "redacted_columns": [
+    "key"
+  ],
+  "redacted_rows": 2
+}

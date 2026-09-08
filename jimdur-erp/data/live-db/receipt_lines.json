@@ -1,0 +1,188 @@
+{
+  "table": "receipt_lines",
+  "extracted_at": "2026-09-08T14:39:15.089Z",
+  "columns": [
+    "id",
+    "receipt_id",
+    "product_id",
+    "expected",
+    "received",
+    "damaged",
+    "incident",
+    "notes"
+  ],
+  "rows": [
+    {
+      "damaged": 0,
+      "expected": 100,
+      "id": 1,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1235,
+      "receipt_id": 1,
+      "received": 100
+    },
+    {
+      "damaged": 0,
+      "expected": 30,
+      "id": 2,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 620,
+      "receipt_id": 2,
+      "received": 30
+    },
+    {
+      "damaged": 0,
+      "expected": 40,
+      "id": 3,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 687,
+      "receipt_id": 2,
+      "received": 40
+    },
+    {
+      "damaged": 0,
+      "expected": 50,
+      "id": 4,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1301,
+      "receipt_id": 3,
+      "received": 50
+    },
+    {
+      "damaged": 0,
+      "expected": 1000,
+      "id": 5,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1714,
+      "receipt_id": 3,
+      "received": 1000
+    },
+    {
+      "damaged": 0,
+      "expected": 16,
+      "id": 6,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1914,
+      "receipt_id": 3,
+      "received": 16
+    },
+    {
+      "damaged": 0,
+      "expected": 30,
+      "id": 7,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1876,
+      "receipt_id": 3,
+      "received": 30
+    },
+    {
+      "damaged": 0,
+      "expected": 30,
+      "id": 8,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1875,
+      "receipt_id": 3,
+      "received": 30
+    },
+    {
+      "damaged": 0,
+      "expected": 100,
+      "id": 10,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 710,
+      "receipt_id": 5,
+      "received": 100
+    },
+    {
+      "damaged": 0,
+      "expected": 100,
+      "id": 11,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 724,
+      "receipt_id": 5,
+      "received": 100
+    },
+    {
+      "damaged": 0,
+      "expected": 20,
+      "id": 12,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 725,
+      "receipt_id": 5,
+      "received": 20
+    },
+    {
+      "damaged": 0,
+      "expected": 200,
+      "id": 13,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1375,
+      "receipt_id": 5,
+      "received": 200
+    },
+    {
+      "damaged": 0,
+      "expected": 200,
+      "id": 14,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1481,
+      "receipt_id": 6,
+      "received": 200
+    },
+    {
+      "damaged": 0,
+      "expected": 200,
+      "id": 15,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1481,
+      "receipt_id": 7,
+      "received": 200
+    },
+    {
+      "damaged": 0,
+      "expected": 130,
+      "id": 16,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1103,
+      "receipt_id": 8,
+      "received": 130
+    },
+    {
+      "damaged": 0,
+      "expected": 150,
+      "id": 17,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1311,
+      "receipt_id": 8,
+      "received": 150
+    },
+    {
+      "damaged": 0,
+      "expected": 6,
+      "id": 18,
+      "incident": "CONFORME",
+      "notes": null,
+      "product_id": 1146,
+      "receipt_id": 9,
+      "received": 6
+    }
+  ],
+  "redacted_columns": [],
+  "redacted_rows": 0
+}

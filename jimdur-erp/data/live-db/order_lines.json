@@ -1,0 +1,148 @@
+{
+  "table": "order_lines",
+  "extracted_at": "2026-09-08T14:39:15.089Z",
+  "columns": [
+    "id",
+    "order_id",
+    "product_id",
+    "requested",
+    "reserved",
+    "dispatched",
+    "status",
+    "notes"
+  ],
+  "rows": [
+    {
+      "dispatched": 0,
+      "id": 1,
+      "notes": null,
+      "order_id": 1,
+      "product_id": 360,
+      "requested": 2,
+      "reserved": 0,
+      "status": "CANCELADA"
+    },
+    {
+      "dispatched": 5,
+      "id": 2,
+      "notes": null,
+      "order_id": 2,
+      "product_id": 1235,
+      "requested": 5,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    },
+    {
+      "dispatched": 20,
+      "id": 3,
+      "notes": null,
+      "order_id": 2,
+      "product_id": 1714,
+      "requested": 20,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    },
+    {
+      "dispatched": 10,
+      "id": 4,
+      "notes": null,
+      "order_id": 2,
+      "product_id": 1301,
+      "requested": 10,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    },
+    {
+      "dispatched": 5,
+      "id": 5,
+      "notes": null,
+      "order_id": 2,
+      "product_id": 620,
+      "requested": 5,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    },
+    {
+      "dispatched": 10,
+      "id": 6,
+      "notes": null,
+      "order_id": 2,
+      "product_id": 687,
+      "requested": 10,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    },
+    {
+      "dispatched": 10,
+      "id": 7,
+      "notes": null,
+      "order_id": 2,
+      "product_id": 1875,
+      "requested": 10,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    },
+    {
+      "dispatched": 5,
+      "id": 8,
+      "notes": null,
+      "order_id": 2,
+      "product_id": 1876,
+      "requested": 5,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    },
+    {
+      "dispatched": 4,
+      "id": 9,
+      "notes": null,
+      "order_id": 2,
+      "product_id": 1914,
+      "requested": 4,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    },
+    {
+      "dispatched": 20,
+      "id": 10,
+      "notes": null,
+      "order_id": 3,
+      "product_id": 710,
+      "requested": 20,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    },
+    {
+      "dispatched": 20,
+      "id": 11,
+      "notes": null,
+      "order_id": 3,
+      "product_id": 724,
+      "requested": 20,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    },
+    {
+      "dispatched": 100,
+      "id": 12,
+      "notes": null,
+      "order_id": 3,
+      "product_id": 1375,
+      "requested": 100,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    },
+    {
+      "dispatched": 20,
+      "id": 13,
+      "notes": null,
+      "order_id": 3,
+      "product_id": 725,
+      "requested": 20,
+      "reserved": 0,
+      "status": "RECIBIDA"
+    }
+  ],
+  "redacted_columns": [],
+  "redacted_rows": 0
+}

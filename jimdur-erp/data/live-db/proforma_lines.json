@@ -1,0 +1,14 @@
+{
+  "table": "proforma_lines",
+  "extracted_at": "2026-09-08T14:39:15.089Z",
+  "columns": [
+    "id",
+    "proforma_id",
+    "product_id",
+    "quantity",
+    "price"
+  ],
+  "rows": [],
+  "redacted_columns": [],
+  "redacted_rows": 0
+}

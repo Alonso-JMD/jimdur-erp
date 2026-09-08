@@ -1,0 +1,1232 @@
+{
+  "table": "stock",
+  "extracted_at": "2026-09-08T14:39:15.089Z",
+  "columns": [
+    "id",
+    "product_id",
+    "warehouse_id",
+    "physical",
+    "reserved",
+    "damaged",
+    "updated_at"
+  ],
+  "rows": [
+    {
+      "damaged": 0,
+      "id": 1,
+      "physical": 200,
+      "product_id": 557,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 2,
+      "physical": 50,
+      "product_id": 1496,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 3,
+      "physical": 32,
+      "product_id": 880,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 4,
+      "physical": 8,
+      "product_id": 537,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 5,
+      "physical": 10,
+      "product_id": 1702,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 6,
+      "physical": 125,
+      "product_id": 582,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 7,
+      "physical": 125,
+      "product_id": 585,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 8,
+      "physical": 290,
+      "product_id": 721,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 9,
+      "physical": 150,
+      "product_id": 722,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 10,
+      "physical": 150,
+      "product_id": 723,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 11,
+      "physical": 200,
+      "product_id": 1378,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 12,
+      "physical": 96,
+      "product_id": 331,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 13,
+      "physical": 19,
+      "product_id": 1217,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 14,
+      "physical": 330,
+      "product_id": 584,
+      "reserved": 0,
+      "updated_at": "2026-08-25 16:25:40",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 15,
+      "physical": 188,
+      "product_id": 1059,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 16,
+      "physical": 8,
+      "product_id": 1055,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 17,
+      "physical": 32,
+      "product_id": 1081,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 18,
+      "physical": 35,
+      "product_id": 1124,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 19,
+      "physical": 290,
+      "product_id": 1133,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 20,
+      "physical": 510,
+      "product_id": 1138,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 21,
+      "physical": 50,
+      "product_id": 1126,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 22,
+      "physical": 1600,
+      "product_id": 1143,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 23,
+      "physical": 276,
+      "product_id": 338,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 24,
+      "physical": 225,
+      "product_id": 339,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 25,
+      "physical": 19,
+      "product_id": 1299,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 26,
+      "physical": 30,
+      "product_id": 141,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 27,
+      "physical": 20,
+      "product_id": 1298,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 28,
+      "physical": 14,
+      "product_id": 451,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 29,
+      "physical": 27,
+      "product_id": 1028,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 30,
+      "physical": 60,
+      "product_id": 1077,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 31,
+      "physical": 41,
+      "product_id": 1663,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 32,
+      "physical": 138,
+      "product_id": 482,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 33,
+      "physical": 22,
+      "product_id": 362,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 34,
+      "physical": 22,
+      "product_id": 363,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 35,
+      "physical": 25,
+      "product_id": 1625,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 36,
+      "physical": 107,
+      "product_id": 1096,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 37,
+      "physical": 22,
+      "product_id": 1634,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 38,
+      "physical": 40,
+      "product_id": 361,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 39,
+      "physical": 8,
+      "product_id": 1881,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 40,
+      "physical": 12,
+      "product_id": 1877,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 41,
+      "physical": 96,
+      "product_id": 730,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 42,
+      "physical": 11,
+      "product_id": 731,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 43,
+      "physical": 6,
+      "product_id": 392,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 44,
+      "physical": 1000,
+      "product_id": 668,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 45,
+      "physical": 119,
+      "product_id": 734,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 46,
+      "physical": 82,
+      "product_id": 732,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 47,
+      "physical": 31,
+      "product_id": 1629,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 48,
+      "physical": 62,
+      "product_id": 1626,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 49,
+      "physical": 32,
+      "product_id": 350,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 50,
+      "physical": 16,
+      "product_id": 1736,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 51,
+      "physical": 1,
+      "product_id": 755,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 52,
+      "physical": 21,
+      "product_id": 1737,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 53,
+      "physical": 53,
+      "product_id": 742,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 54,
+      "physical": 15,
+      "product_id": 747,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 55,
+      "physical": 90,
+      "product_id": 758,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 56,
+      "physical": 28,
+      "product_id": 1735,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 57,
+      "physical": 61,
+      "product_id": 744,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 58,
+      "physical": 30,
+      "product_id": 484,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 59,
+      "physical": 103,
+      "product_id": 481,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 60,
+      "physical": 21,
+      "product_id": 754,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 61,
+      "physical": 26,
+      "product_id": 751,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 62,
+      "physical": 29,
+      "product_id": 1750,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 63,
+      "physical": 17,
+      "product_id": 753,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 64,
+      "physical": 804,
+      "product_id": 676,
+      "reserved": 10,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 65,
+      "physical": 151,
+      "product_id": 486,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 66,
+      "physical": 60,
+      "product_id": 1472,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 67,
+      "physical": 110,
+      "product_id": 1140,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 68,
+      "physical": 50,
+      "product_id": 1128,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 69,
+      "physical": 390,
+      "product_id": 1471,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 70,
+      "physical": 168,
+      "product_id": 1236,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 71,
+      "physical": 26,
+      "product_id": 1074,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 72,
+      "physical": 50,
+      "product_id": 830,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 73,
+      "physical": 36,
+      "product_id": 1083,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 74,
+      "physical": 26,
+      "product_id": 1120,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 75,
+      "physical": 182,
+      "product_id": 119,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 76,
+      "physical": 149,
+      "product_id": 1119,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 77,
+      "physical": 7,
+      "product_id": 1413,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 78,
+      "physical": 11,
+      "product_id": 1415,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 79,
+      "physical": 76,
+      "product_id": 1118,
+      "reserved": 6,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 80,
+      "physical": 5,
+      "product_id": 647,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 81,
+      "physical": 16,
+      "product_id": 1249,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 82,
+      "physical": 19,
+      "product_id": 1395,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 83,
+      "physical": 28,
+      "product_id": 1016,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 84,
+      "physical": 50,
+      "product_id": 489,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 85,
+      "physical": 7,
+      "product_id": 1683,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 86,
+      "physical": 54,
+      "product_id": 1871,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 87,
+      "physical": 15,
+      "product_id": 356,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 88,
+      "physical": 12,
+      "product_id": 352,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 89,
+      "physical": 26,
+      "product_id": 359,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 90,
+      "physical": 46,
+      "product_id": 357,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 91,
+      "physical": 165,
+      "product_id": 349,
+      "reserved": 2,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 92,
+      "physical": 32,
+      "product_id": 355,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 93,
+      "physical": 14,
+      "product_id": 354,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 94,
+      "physical": 18,
+      "product_id": 360,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:50:57",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 95,
+      "physical": 1,
+      "product_id": 381,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 96,
+      "physical": 39,
+      "product_id": 358,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 97,
+      "physical": 5,
+      "product_id": 378,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 98,
+      "physical": 5,
+      "product_id": 382,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 99,
+      "physical": 40,
+      "product_id": 383,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 100,
+      "physical": 17,
+      "product_id": 388,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 101,
+      "physical": 4,
+      "product_id": 390,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 102,
+      "physical": 35,
+      "product_id": 122,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 103,
+      "physical": 9,
+      "product_id": 1872,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 104,
+      "physical": 28,
+      "product_id": 735,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 105,
+      "physical": 11,
+      "product_id": 741,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 106,
+      "physical": 85,
+      "product_id": 1515,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 107,
+      "physical": 192,
+      "product_id": 1182,
+      "reserved": 0,
+      "updated_at": "2026-08-22 20:31:47",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 108,
+      "physical": 95,
+      "product_id": 1235,
+      "reserved": 0,
+      "updated_at": "2026-08-24 16:17:43",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 109,
+      "physical": 25,
+      "product_id": 620,
+      "reserved": 0,
+      "updated_at": "2026-08-24 16:17:43",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 110,
+      "physical": 30,
+      "product_id": 687,
+      "reserved": 0,
+      "updated_at": "2026-08-24 16:17:43",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 111,
+      "physical": 40,
+      "product_id": 1301,
+      "reserved": 0,
+      "updated_at": "2026-08-24 16:17:43",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 112,
+      "physical": 980,
+      "product_id": 1714,
+      "reserved": 0,
+      "updated_at": "2026-08-24 16:17:43",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 113,
+      "physical": 12,
+      "product_id": 1914,
+      "reserved": 0,
+      "updated_at": "2026-08-24 16:17:43",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 114,
+      "physical": 25,
+      "product_id": 1876,
+      "reserved": 0,
+      "updated_at": "2026-08-24 16:17:43",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 115,
+      "physical": 20,
+      "product_id": 1875,
+      "reserved": 0,
+      "updated_at": "2026-08-24 16:17:43",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 116,
+      "physical": 0,
+      "product_id": 321,
+      "reserved": 0,
+      "updated_at": "2026-08-24 16:11:02",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 118,
+      "physical": 80,
+      "product_id": 710,
+      "reserved": 0,
+      "updated_at": "2026-08-25 17:28:31",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 119,
+      "physical": 80,
+      "product_id": 724,
+      "reserved": 0,
+      "updated_at": "2026-08-25 17:28:31",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 120,
+      "physical": 0,
+      "product_id": 725,
+      "reserved": 0,
+      "updated_at": "2026-08-25 17:28:31",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 121,
+      "physical": 100,
+      "product_id": 1375,
+      "reserved": 0,
+      "updated_at": "2026-08-25 17:28:31",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 122,
+      "physical": 60,
+      "product_id": 1646,
+      "reserved": 0,
+      "updated_at": "2026-08-25 19:45:35",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 123,
+      "physical": 400,
+      "product_id": 1481,
+      "reserved": 0,
+      "updated_at": "2026-08-25 21:34:05",
+      "warehouse_id": 10
+    },
+    {
+      "damaged": 0,
+      "id": 125,
+      "physical": 130,
+      "product_id": 1103,
+      "reserved": 0,
+      "updated_at": "2026-08-25 21:54:08",
+      "warehouse_id": 10
+    },
+    {
+      "damaged": 0,
+      "id": 126,
+      "physical": 150,
+      "product_id": 1311,
+      "reserved": 0,
+      "updated_at": "2026-08-25 21:54:08",
+      "warehouse_id": 10
+    },
+    {
+      "damaged": 0,
+      "id": 127,
+      "physical": 6,
+      "product_id": 1146,
+      "reserved": 0,
+      "updated_at": "2026-08-26 19:22:49",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 128,
+      "physical": 67,
+      "product_id": 1680,
+      "reserved": 0,
+      "updated_at": "2026-08-27 22:47:53",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 129,
+      "physical": 0,
+      "product_id": 1970,
+      "reserved": 0,
+      "updated_at": "2026-08-27 22:51:10",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 130,
+      "physical": 0,
+      "product_id": 1971,
+      "reserved": 0,
+      "updated_at": "2026-08-27 22:51:43",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 131,
+      "physical": 0,
+      "product_id": 1972,
+      "reserved": 0,
+      "updated_at": "2026-08-27 22:52:24",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 132,
+      "physical": 0,
+      "product_id": 1973,
+      "reserved": 0,
+      "updated_at": "2026-08-27 22:52:53",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 133,
+      "physical": 155,
+      "product_id": 1974,
+      "reserved": 0,
+      "updated_at": "2026-08-27 22:57:05",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 135,
+      "physical": 111,
+      "product_id": 1292,
+      "reserved": 0,
+      "updated_at": "2026-08-27 22:57:38",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 136,
+      "physical": 120,
+      "product_id": 1149,
+      "reserved": 0,
+      "updated_at": "2026-08-27 22:59:36",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 137,
+      "physical": 58,
+      "product_id": 1122,
+      "reserved": 0,
+      "updated_at": "2026-08-27 23:00:02",
+      "warehouse_id": 9
+    },
+    {
+      "damaged": 0,
+      "id": 138,
+      "physical": 90,
+      "product_id": 1777,
+      "reserved": 0,
+      "updated_at": "2026-08-27 23:00:38",
+      "warehouse_id": 9
+    }
+  ],
+  "redacted_columns": [],
+  "redacted_rows": 0
+}
