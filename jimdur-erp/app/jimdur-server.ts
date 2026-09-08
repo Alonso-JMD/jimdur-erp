@@ -765,22 +765,22 @@ export async function getSnapshot(user: AppUser): Promise<Snapshot> {
       "SELECT m.id,m.occurred_at,m.type,m.document,m.product_id,p.name product,p.code,m.quantity,m.warehouse_id,w.name warehouse,COALESCE(m.notes,'') notes,COALESCE(m.user_email,'') user_email FROM movements m JOIN products p ON p.id=m.product_id JOIN warehouses w ON w.id=m.warehouse_id ORDER BY m.occurred_at DESC,m.id DESC LIMIT 1000",
     ),
     allRows(
-      "SELECT r.id,r.number,r.date,r.warehouse_id,w.name warehouse,COALESCE(r.supplier,'') supplier,COALESCE(r.source,'') source,COALESCE(r.document_number,'') document_number,COALESCE(r.carrier,'') carrier,COALESCE(r.notes,'') notes,r.status,COALESCE(r.user_email,'') user_email,COUNT(rl.id) products,COALESCE(SUM(rl.received),0) units FROM receipts r JOIN warehouses w ON w.id=r.warehouse_id LEFT JOIN receipt_lines rl ON rl.receipt_id=r.id GROUP BY r.id ORDER BY r.date DESC,r.id DESC LIMIT 500",
+      "SELECT r.id,r.number,r.date,r.warehouse_id,w.name warehouse,COALESCE(r.supplier,'') supplier,COALESCE(r.source,'') source,COALESCE(r.document_number,'') document_number,COALESCE(r.carrier,'') carrier,COALESCE(r.notes,'') notes,r.status,COALESCE(r.user_email,'') user_email,COUNT(rl.id) products,COALESCE(SUM(rl.received),0) units FROM receipts r JOIN warehouses w ON w.id=r.warehouse_id LEFT JOIN receipt_lines rl ON rl.receipt_id=r.id GROUP BY r.id,w.name ORDER BY r.date DESC,r.id DESC LIMIT 500",
     ),
     allRows(
-      "SELECT p.id,p.number,p.date,p.client,COALESCE(p.document,'') document,COALESCE(p.address,'') address,p.warehouse_id,w.name warehouse,p.payment_condition,p.status,COALESCE(p.user_email,'') user_email,COUNT(pl.id) products,COALESCE(SUM(pl.quantity),0) units,COALESCE(SUM(pl.quantity*pl.price),0) total FROM proformas p JOIN warehouses w ON w.id=p.warehouse_id LEFT JOIN proforma_lines pl ON pl.proforma_id=p.id GROUP BY p.id ORDER BY p.date DESC,p.id DESC LIMIT 500",
+      "SELECT p.id,p.number,p.date,p.client,COALESCE(p.document,'') document,COALESCE(p.address,'') address,p.warehouse_id,w.name warehouse,p.payment_condition,p.status,COALESCE(p.user_email,'') user_email,COUNT(pl.id) products,COALESCE(SUM(pl.quantity),0) units,COALESCE(SUM(pl.quantity*pl.price),0) total FROM proformas p JOIN warehouses w ON w.id=p.warehouse_id LEFT JOIN proforma_lines pl ON pl.proforma_id=p.id GROUP BY p.id,w.name ORDER BY p.date DESC,p.id DESC LIMIT 500",
     ),
     allRows(
       "SELECT pl.id,pl.proforma_id,pl.product_id,p.code,p.name,p.unit,pl.quantity,pl.price FROM proforma_lines pl JOIN products p ON p.id=pl.product_id ORDER BY pl.id",
     ),
     allRows(
-      "SELECT o.id,o.number,o.date,o.warehouse_id,w.name warehouse,o.destination,o.order_type,o.flow_mode,o.priority,COALESCE(o.notes,'') notes,o.status,COALESCE(o.user_email,'') user_email,o.started_at,o.ready_at,o.dispatched_at,COUNT(ol.id) products,COALESCE(SUM(ol.requested),0) requested,COALESCE(SUM(ol.reserved),0) reserved,COALESCE(SUM(ol.dispatched),0) dispatched FROM orders o JOIN warehouses w ON w.id=o.warehouse_id LEFT JOIN order_lines ol ON ol.order_id=o.id GROUP BY o.id ORDER BY o.date DESC,o.id DESC LIMIT 500",
+      "SELECT o.id,o.number,o.date,o.warehouse_id,w.name warehouse,o.destination,o.order_type,o.flow_mode,o.priority,COALESCE(o.notes,'') notes,o.status,COALESCE(o.user_email,'') user_email,o.started_at,o.ready_at,o.dispatched_at,COUNT(ol.id) products,COALESCE(SUM(ol.requested),0) requested,COALESCE(SUM(ol.reserved),0) reserved,COALESCE(SUM(ol.dispatched),0) dispatched FROM orders o JOIN warehouses w ON w.id=o.warehouse_id LEFT JOIN order_lines ol ON ol.order_id=o.id GROUP BY o.id,w.name ORDER BY o.date DESC,o.id DESC LIMIT 500",
     ),
     allRows(
       "SELECT ol.id,ol.order_id,ol.product_id,p.code,p.name,p.unit,COALESCE(p.location,'') location,ol.requested,ol.reserved,ol.dispatched,ol.status,COALESCE(ol.notes,'') notes,COALESCE(s.physical,0) physical,COALESCE(s.reserved,0) stock_reserved FROM order_lines ol JOIN orders o ON o.id=ol.order_id JOIN products p ON p.id=ol.product_id LEFT JOIN stock s ON s.product_id=ol.product_id AND s.warehouse_id=o.warehouse_id ORDER BY ol.id",
     ),
     allRows(
-      "SELECT t.id,t.number,t.date,t.origin_warehouse_id,wo.name origin,t.destination_warehouse_id,wd.name destination,COALESCE(t.notes,'') notes,t.status,COALESCE(t.user_email,'') user_email,COUNT(tl.id) products,COALESCE(SUM(tl.quantity),0) units FROM transfers t JOIN warehouses wo ON wo.id=t.origin_warehouse_id JOIN warehouses wd ON wd.id=t.destination_warehouse_id LEFT JOIN transfer_lines tl ON tl.transfer_id=t.id GROUP BY t.id ORDER BY t.date DESC,t.id DESC LIMIT 500",
+      "SELECT t.id,t.number,t.date,t.origin_warehouse_id,wo.name origin,t.destination_warehouse_id,wd.name destination,COALESCE(t.notes,'') notes,t.status,COALESCE(t.user_email,'') user_email,COUNT(tl.id) products,COALESCE(SUM(tl.quantity),0) units FROM transfers t JOIN warehouses wo ON wo.id=t.origin_warehouse_id JOIN warehouses wd ON wd.id=t.destination_warehouse_id LEFT JOIN transfer_lines tl ON tl.transfer_id=t.id GROUP BY t.id,wo.name,wd.name ORDER BY t.date DESC,t.id DESC LIMIT 500",
     ),
     allRows(
       "SELECT email,username,display_name,role,active,permissions,last_access_at FROM app_users WHERE username IS NOT NULL ORDER BY role,display_name",
