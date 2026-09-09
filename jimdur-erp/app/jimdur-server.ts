@@ -1234,7 +1234,7 @@ async function createReceipt(user: AppUser, payload: DbRow) {
         ],
       ),
       statement(
-        "INSERT INTO stock (product_id,warehouse_id,physical,reserved,damaged) VALUES (?,?,?,0,?) ON CONFLICT(product_id,warehouse_id) DO UPDATE SET physical=physical+excluded.physical,damaged=damaged+excluded.damaged,updated_at=CURRENT_TIMESTAMP",
+        "INSERT INTO stock (product_id,warehouse_id,physical,reserved,damaged) VALUES (?,?,?,0,?) ON CONFLICT(product_id,warehouse_id) DO UPDATE SET physical=stock.physical+excluded.physical,damaged=stock.damaged+excluded.damaged,updated_at=CURRENT_TIMESTAMP",
         [line.productId, warehouseId, good, line.damaged],
       ),
     );
@@ -1837,7 +1837,7 @@ async function createTransfer(user: AppUser, payload: DbRow) {
         [line.quantity, line.productId, originId],
       ),
       statement(
-        "INSERT INTO stock (product_id,warehouse_id,physical,reserved,damaged) VALUES (?,?,?,0,0) ON CONFLICT(product_id,warehouse_id) DO UPDATE SET physical=physical+excluded.physical,updated_at=CURRENT_TIMESTAMP",
+        "INSERT INTO stock (product_id,warehouse_id,physical,reserved,damaged) VALUES (?,?,?,0,0) ON CONFLICT(product_id,warehouse_id) DO UPDATE SET physical=stock.physical+excluded.physical,updated_at=CURRENT_TIMESTAMP",
         [line.productId, destinationId, line.quantity],
       ),
       statement(
