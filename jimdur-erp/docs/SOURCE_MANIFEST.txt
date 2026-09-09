@@ -2,14 +2,12 @@ JIMDUR ERP — inventario de archivos fuente del commit 4ea1b00f823765f4082b8892
 
 .gitignore
 .npmrc
-.openai/hosting.json
 README.md
 app/JimdurApp.tsx
 app/api/auth/route.ts
 app/api/operations/route.ts
 app/api/snapshot/route.ts
 app/assets.d.ts
-app/chatgpt-auth.ts
 app/globals.css
 app/instalar/InstallMobile.tsx
 app/instalar/page.tsx
@@ -72,4 +70,3 @@ tsconfig.json
 tsconfig.tsbuildinfo
 vite.config.ts
 worker/index.ts
-
