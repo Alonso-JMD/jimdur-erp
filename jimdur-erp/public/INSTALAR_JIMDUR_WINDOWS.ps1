@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 $appName = "JIMDUR ERP"
-$appUrl = if ($env:JIMDUR_APP_URL) { $env:JIMDUR_APP_URL } else { "https://TU-PROYECTO.vercel.app/" }
+$appUrl = if ($env:JIMDUR_APP_URL) { $env:JIMDUR_APP_URL } else { "https://jimdur-erp.vercel.app/" }
 $appUrl = $appUrl.TrimEnd("/") + "/"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $iconPath = Join-Path $scriptDir "JIMDUR.ico"
