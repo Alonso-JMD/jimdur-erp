@@ -1,6 +1,89 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+type InstallPromptEvent = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+};
+
+function PwaInstallCard() {
+  const [installPrompt, setInstallPrompt] = useState<InstallPromptEvent | null>(null);
+  const [installed, setInstalled] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(display-mode: standalone)");
+    const isStandalone = () =>
+      mediaQuery.matches ||
+      Boolean((navigator as Navigator & { standalone?: boolean }).standalone);
+    const syncInstalled = () => setInstalled(isStandalone());
+    const onBeforeInstallPrompt = (event: Event) => {
+      event.preventDefault();
+      setInstallPrompt(event as InstallPromptEvent);
+    };
+    const onAppInstalled = () => {
+      setInstalled(true);
+      setInstallPrompt(null);
+    };
+
+    syncInstalled();
+    window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+    window.addEventListener("appinstalled", onAppInstalled);
+    mediaQuery.addEventListener?.("change", syncInstalled);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", onAppInstalled);
+      mediaQuery.removeEventListener?.("change", syncInstalled);
+    };
+  }, []);
+
+  const install = async () => {
+    if (!installPrompt) return;
+    setBusy(true);
+    try {
+      await installPrompt.prompt();
+      const choice = await installPrompt.userChoice;
+      if (choice.outcome === "accepted") setInstalled(true);
+    } finally {
+      setInstallPrompt(null);
+      setBusy(false);
+    }
+  };
+
+  return (
+    <section className="desktop-installer-pwa">
+      <span>APLICACIÓN WEB INSTALABLE</span>
+      <h2>Instala JIMDUR como aplicativo</h2>
+      <p>
+        Se abrirá en una ventana propia, con su ícono y acceso directo, usando
+        la misma información centralizada del sistema.
+      </p>
+      {installed ? (
+        <div className="desktop-installer-pwa-success">
+          ✓ JIMDUR ERP ya está instalado en este dispositivo.
+        </div>
+      ) : installPrompt ? (
+        <button
+          className="desktop-installer-pwa-button"
+          type="button"
+          onClick={() => void install()}
+          disabled={busy}
+        >
+          {busy ? "INSTALANDO…" : "INSTALAR JIMDUR ERP"}
+        </button>
+      ) : (
+        <ol className="desktop-installer-pwa-steps">
+          <li>Abre esta página en Chrome o Edge.</li>
+          <li>Selecciona el ícono de instalación en la barra de direcciones.</li>
+          <li>Confirma con “Instalar”.</li>
+        </ol>
+      )}
+    </section>
+  );
+}
 
 export default function InstallMobile() {
   return (
@@ -14,6 +97,7 @@ export default function InstallMobile() {
             <p>Inventario, pedidos y despachos en una ventana propia de Windows.</p>
           </div>
         </div>
+        <PwaInstallCard />
         <div className="desktop-installer-features">
           <div><b>01</b><span><strong>Acceso directo</strong><small>Ícono de JIMDUR ERP en el escritorio y menú Inicio.</small></span></div>
           <div><b>02</b><span><strong>Ventana independiente</strong><small>Abre el sistema como aplicación, sin pestañas del navegador.</small></span></div>
