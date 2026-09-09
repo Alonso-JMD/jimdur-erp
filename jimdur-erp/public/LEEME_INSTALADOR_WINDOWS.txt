@@ -10,5 +10,7 @@ No requiere permisos de administrador.
 Los datos permanecen centralizados en la base de datos en la nube; este instalador no copia la base de datos al equipo.
 Cada persona debe ingresar con su propio usuario y contrasena JIMDUR.
 
-Direccion del sistema: reemplaza la URL de Vercel en
-INSTALAR_JIMDUR_WINDOWS.ps1 o define la variable JIMDUR_APP_URL antes de ejecutarlo.
+Direccion del sistema: https://jimdur-erp.vercel.app/
+
+Si usas otro dominio, reemplaza la URL en INSTALAR_JIMDUR_WINDOWS.ps1 o define
+la variable JIMDUR_APP_URL antes de ejecutarlo.
