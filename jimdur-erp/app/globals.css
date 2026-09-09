@@ -6160,6 +6160,464 @@ textarea:focus-visible {
   }
 }
 
+/* Pulido visual empresarial — jerarquía, legibilidad y estados consistentes */
+:root {
+  --surface-elevated: rgba(255, 255, 255, 0.96);
+  --surface-subtle: #f7f9fc;
+  --ink-strong: #102f52;
+  --ink-soft: #617487;
+  --border-soft: #d9e3ec;
+  --radius-panel: 16px;
+  --focus-ring: 0 0 0 4px rgba(31, 111, 178, 0.14);
+}
+
+body {
+  background: #eef3f7;
+}
+
+.app-shell {
+  background:
+    radial-gradient(circle at 92% -10%, rgba(83, 153, 207, 0.09), transparent 27%),
+    #eef3f7;
+}
+
+.sidebar {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 14px 0 38px rgba(3, 23, 41, 0.18);
+}
+
+.company-block {
+  min-height: 92px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.company-block strong {
+  color: #fff;
+  font-size: 14px;
+}
+
+.brand-block {
+  position: relative;
+  min-height: 88px;
+}
+
+.brand-block::after {
+  position: absolute;
+  right: 20px;
+  bottom: -1px;
+  left: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--red), rgba(224, 40, 50, 0));
+  content: "";
+}
+
+.main-nav {
+  padding-top: 15px;
+}
+
+.nav-group {
+  margin-bottom: 15px;
+}
+
+.nav-label {
+  padding-top: 9px;
+  color: #9bb6cc;
+  font-size: 9px;
+}
+
+.nav-group button {
+  min-height: 44px;
+  margin: 3px 0;
+  color: #d7e5f1;
+  transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.nav-group button:hover {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  transform: translateX(2px);
+}
+
+.nav-group button.active {
+  box-shadow: inset 3px 0 0 var(--red), 0 8px 20px rgba(0, 0, 0, 0.14);
+}
+
+.nav-icon {
+  width: 30px;
+  height: 30px;
+  flex-basis: 30px;
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-group button.active .nav-icon {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.workspace {
+  background: transparent;
+}
+
+.top-header {
+  min-height: 92px;
+  border-bottom-color: #d6e0e9;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 9px 28px rgba(20, 49, 78, 0.07);
+}
+
+.page-heading h1 {
+  color: var(--ink-strong);
+  font-size: 25px;
+  letter-spacing: -0.035em;
+}
+
+.page-heading p {
+  color: #718396;
+}
+
+.page-kicker {
+  color: #7590a7;
+}
+
+.status-online {
+  padding: 6px 10px;
+  border: 1px solid #bfe3d3;
+  border-radius: 999px;
+  background: #eefaf5;
+}
+
+.header-mode {
+  min-height: 49px;
+  justify-content: center;
+}
+
+.content-area {
+  max-width: 1720px;
+  margin: 0 auto;
+}
+
+.module-toolbar {
+  min-height: 70px;
+  padding: 12px 17px 12px 20px;
+  border-color: #d6e1ea;
+  border-radius: var(--radius-panel);
+  background: var(--surface-elevated);
+  box-shadow: 0 10px 28px rgba(20, 49, 78, 0.06);
+}
+
+.module-toolbar > div:first-child span {
+  color: var(--ink-strong);
+  font-size: 10px;
+}
+
+.module-toolbar > div:first-child small {
+  color: #7e90a1;
+}
+
+.toolbar-buttons button,
+.filter-export,
+.table-action,
+.warehouse-card-actions button,
+.ghost-button,
+.primary-button {
+  min-height: 38px;
+  border-radius: 8px;
+  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.toolbar-buttons button:hover:not(:disabled),
+.filter-export:hover:not(:disabled),
+.table-action:hover,
+.warehouse-card-actions button:hover,
+.ghost-button:hover,
+.primary-button:hover:not(:disabled) {
+  border-color: #8fb4d1;
+  box-shadow: 0 6px 16px rgba(18, 59, 103, 0.1);
+  transform: translateY(-1px);
+}
+
+.toolbar-buttons button.primary,
+.primary-button {
+  background: linear-gradient(135deg, #267bb9, #123d65);
+}
+
+.toolbar-buttons button.primary:hover,
+.primary-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2e86c5, #174b79);
+}
+
+.dashboard-stack,
+.orders-workspace,
+.warehouse-workspace,
+.backup-shell {
+  gap: 17px;
+}
+
+.dashboard-banner {
+  border: 1px solid rgba(117, 177, 219, 0.28);
+  box-shadow: 0 18px 40px rgba(8, 43, 75, 0.18);
+}
+
+.dashboard-banner h2 {
+  letter-spacing: -0.045em;
+}
+
+.metric-card,
+.summary-card,
+.data-panel,
+.warehouse-card,
+.migration-steps,
+.import-history,
+.chart-card {
+  border-color: var(--border-soft);
+  border-radius: var(--radius-panel);
+  box-shadow: 0 12px 30px rgba(18, 59, 103, 0.065);
+}
+
+.metric-card {
+  min-height: 136px;
+  padding: 20px 19px 17px;
+  background: linear-gradient(145deg, #fff, #fbfdff);
+}
+
+.metric-card:hover {
+  border-color: #b8d0e2;
+  box-shadow: 0 17px 32px rgba(18, 59, 103, 0.12);
+}
+
+.metric-card > span {
+  color: #60758a;
+}
+
+.metric-card > strong {
+  color: var(--ink-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-card > small {
+  color: #7a8d9f;
+}
+
+.card-title {
+  min-height: 27px;
+  margin-bottom: 15px;
+}
+
+.card-title h3,
+.chart-heading h3 {
+  color: var(--ink-strong);
+  letter-spacing: -0.015em;
+}
+
+.card-title button {
+  min-height: 30px;
+  padding: 6px 9px;
+  border: 1px solid #cbd9e5;
+  border-radius: 7px;
+  background: #f8fbfd;
+}
+
+.card-title button:hover {
+  background: #eef6fc;
+  text-decoration: none;
+}
+
+.panel-summary,
+.report-preset-bar {
+  min-height: 60px;
+  background: linear-gradient(180deg, #fbfdff, #f5f8fb);
+}
+
+.panel-summary strong,
+.report-preset-bar strong {
+  color: var(--ink-strong);
+}
+
+.filter-bar {
+  gap: 13px;
+  padding: 18px;
+  background: #f8fafc;
+}
+
+.filter-bar input,
+.filter-bar select,
+.form-grid input,
+.form-grid select,
+.notes-field textarea,
+.line-builder input,
+.line-builder select,
+.search-combobox input {
+  min-height: 43px;
+  border-color: #c9d6e2;
+  border-radius: 9px;
+  background: #fff;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.filter-bar input:hover,
+.filter-bar select:hover,
+.form-grid input:hover,
+.form-grid select:hover,
+.search-combobox input:hover {
+  border-color: #a8bfd2;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus,
+.form-grid input:focus,
+.form-grid select:focus,
+.notes-field textarea:focus,
+.line-builder input:focus,
+.line-builder select:focus,
+.search-combobox input:focus {
+  border-color: var(--blue);
+  box-shadow: var(--focus-ring);
+}
+
+.report-summary-strip {
+  background: #d9e3ec;
+}
+
+.report-summary-strip > div {
+  padding: 14px 17px;
+  background: #f4f8fb;
+}
+
+table {
+  font-size: 11.5px;
+}
+
+th {
+  padding: 13px 12px;
+  color: #5b7185;
+  background: #eef4f8;
+  font-size: 9px;
+}
+
+td {
+  padding: 13px 12px;
+  color: #41566a;
+}
+
+tbody tr {
+  transition: background-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+tbody tr:hover {
+  background: #edf6fc;
+  box-shadow: inset 3px 0 0 #77a9cd;
+}
+
+.code-cell {
+  color: #174f7d;
+}
+
+.product-cell {
+  color: #1f3e5c;
+}
+
+.movement-badge,
+.status-badge,
+.movement-type,
+.status-pill {
+  min-height: 24px;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 7px;
+}
+
+.empty-state {
+  min-height: 220px;
+}
+
+.modal-card {
+  border: 1px solid #d8e2eb;
+  border-radius: 18px;
+  box-shadow: 0 30px 90px rgba(5, 31, 56, 0.34);
+}
+
+.modal-heading {
+  padding: 20px 22px;
+  background: linear-gradient(125deg, #f4f8fb, #fff 75%);
+}
+
+.modal-heading h3 {
+  color: var(--ink-strong);
+  font-size: 19px;
+}
+
+.modal-card form {
+  padding: 21px 22px 23px;
+}
+
+.line-builder {
+  border-color: #c4d6e5;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #f4f8fb, #edf5fb);
+}
+
+.line-list {
+  border-color: #d3dfe8;
+  border-radius: 11px;
+}
+
+.line-list-head {
+  background: #edf4f8;
+}
+
+.toast {
+  border-radius: 14px;
+  box-shadow: 0 18px 48px rgba(5, 30, 53, 0.23);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+@media (max-width: 1000px) {
+  .top-header {
+    min-height: 86px;
+  }
+}
+
+@media (max-width: 760px) {
+  .content-area {
+    padding-top: 16px;
+  }
+
+  .top-header {
+    background: rgba(255, 255, 255, 0.97);
+  }
+
+  .module-toolbar,
+  .dashboard-banner,
+  .summary-card,
+  .data-panel,
+  .chart-card,
+  .warehouse-card {
+    border-radius: 13px;
+  }
+
+  .filter-bar {
+    padding: 14px;
+  }
+
+  .metric-card {
+    min-height: 122px;
+    padding: 16px;
+  }
+
+  .metric-card > strong {
+    font-size: 21px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
