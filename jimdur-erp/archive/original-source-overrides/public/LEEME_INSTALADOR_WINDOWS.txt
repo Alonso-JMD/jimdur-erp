@@ -11,4 +11,4 @@ Los datos permanecen centralizados en la base de datos en la nube; este instalad
 Cada persona debe ingresar con su propio usuario y contrasena JIMDUR.
 
 Direccion del sistema:
-https://jimdur-web.soporteia711.chatgpt.site/
+https://jimdur.vercel.app/
