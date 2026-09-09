@@ -23,4 +23,4 @@ ALTER TABLE `app_users` ADD `password_iterations` integer DEFAULT 100000 NOT NUL
 ALTER TABLE `app_users` ADD `must_change_password` integer DEFAULT false NOT NULL;--> statement-breakpoint
 ALTER TABLE `app_users` ADD `password_updated_at` text;--> statement-breakpoint
 CREATE UNIQUE INDEX `app_users_username_unique` ON `app_users` (`username`);--> statement-breakpoint
-DELETE FROM `app_users` WHERE `email` = 'sites-screenshot-service-noreply@chatgpt.com' AND `password_hash` IS NULL;
+DELETE FROM `app_users` WHERE `email` = 'screenshot-service@invalid.local' AND `password_hash` IS NULL;
