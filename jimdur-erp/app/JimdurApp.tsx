@@ -798,6 +798,7 @@ function movementDay(value: string) {
   const parsed = new Date(value);
   return Number.isNaN(parsed.getTime()) ? "" : dateInputValue(parsed);
 }
+
 function compactOperationalNumber(value: string) {
   const adjustment = value.match(/^AJ-\d{4}-(\d{6})$/i);
   if (adjustment) return `AS-${adjustment[1]}`;
