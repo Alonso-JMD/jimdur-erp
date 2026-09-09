@@ -1653,7 +1653,7 @@ export default function JimdurApp() {
     snapshot,
     setNotice,
   });
-  const noticeIsError = /no se pudo|sin permiso|no tiene permiso|error|fall/i.test(
+  const noticeIsError = /no se pudo|no se puede|sin permiso|no tiene permiso|error|fall|ambiguous|column reference|constraint|duplicate|violat|invalid/i.test(
     notice,
   );
 
