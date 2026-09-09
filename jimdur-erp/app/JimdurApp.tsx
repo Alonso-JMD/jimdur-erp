@@ -792,6 +792,12 @@ function dateOnly(value: string) {
   return match ? `${match[3]}/${match[2]}/${match[1]}` : value;
 }
 
+function movementDay(value: string) {
+  const direct = value.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (direct) return direct[1];
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? "" : dateInputValue(parsed);
+}
 function compactOperationalNumber(value: string) {
   const adjustment = value.match(/^AJ-\d{4}-(\d{6})$/i);
   if (adjustment) return `AS-${adjustment[1]}`;
@@ -2317,7 +2323,7 @@ function DashboardView({
     ? Math.max(0, Math.round(((snapshot.products.length - critical) / snapshot.products.length) * 100))
     : 100;
   const today = todayInputValue();
-  const todayMovements = snapshot.movements.filter((movement) => movement.date.slice(0, 10) === today).length;
+  const todayMovements = snapshot.movements.filter((movement) => movementDay(movement.date) === today).length;
   const orderProgress = snapshot.orders.length
     ? Math.round((completedOrders / snapshot.orders.length) * 100)
     : 100;
@@ -4368,7 +4374,7 @@ function ReportsView({
   const { today, lastSevenDays, monthStart } = datePresets;
   const invalidRange = Boolean(from && to && from > to);
   const rows = snapshot.movements.filter((row) => {
-    const day = row.date.slice(0, 10);
+    const day = movementDay(row.date);
     const term = query.trim().toLowerCase();
     return (
       (!from || day >= from) &&
