@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://jimdur-web.soporteia711.chatgpt.site"),
+  metadataBase: new URL("https://jimdur.vercel.app"),
   title: "JIMDUR ERP",
   description:
     "Sistema de inventario, pedidos y despachos de Grupo JIMDUR.",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://jimdur-web.soporteia711.chatgpt.site/og.png",
+        url: "https://jimdur.vercel.app/og.png",
         width: 1200,
         height: 630,
         alt: "JIMDUR ERP — Inventario, pedidos y despachos",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "JIMDUR ERP",
     description: "Pedidos, despachos y stock en línea.",
-    images: ["https://jimdur-web.soporteia711.chatgpt.site/og.png"],
+    images: ["https://jimdur.vercel.app/og.png"],
   },
 };
 
