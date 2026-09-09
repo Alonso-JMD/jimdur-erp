@@ -79,6 +79,11 @@ function asText(value: unknown, fallback = "") {
   return String(value).trim();
 }
 
+function asDateInput(value: unknown, fallback = new Date().toISOString().slice(0, 10)) {
+  const date = asText(value);
+  return /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : fallback;
+}
+
 function asBoolean(value: unknown, fallback = true) {
   if (value === null || value === undefined || value === "") return fallback;
   if (typeof value === "boolean") return value;
@@ -1201,7 +1206,7 @@ async function createReceipt(user: AppUser, payload: DbRow) {
     throw new HttpError(400, "Agrega por lo menos un producto a la recepción.");
   }
   const number = await nextNumber("receipts", "REC", false);
-  const date = asText(payload.date, new Date().toISOString().slice(0, 10));
+  const date = asDateInput(payload.date);
   const receipt = await firstRow<{ id: number }>(
     "INSERT INTO receipts (number,date,warehouse_id,supplier,source,document_number,carrier,notes,status,user_email,confirmed_at) VALUES (?,?,?,?,?,?,?,?, 'CONFIRMADA',?,CURRENT_TIMESTAMP) RETURNING id",
     [
@@ -1241,8 +1246,9 @@ async function createReceipt(user: AppUser, payload: DbRow) {
     if (good > 0) {
       batch.push(
         statement(
-          "INSERT INTO movements (type,document,product_id,warehouse_id,quantity,notes,user_email) VALUES ('INGRESO',?,?,?,?,?,?)",
+          "INSERT INTO movements (occurred_at,type,document,product_id,warehouse_id,quantity,notes,user_email) VALUES (CAST(? AS TIMESTAMP),'INGRESO',?,?,?,?,?,?)",
           [
+            date,
             number,
             line.productId,
             warehouseId,
