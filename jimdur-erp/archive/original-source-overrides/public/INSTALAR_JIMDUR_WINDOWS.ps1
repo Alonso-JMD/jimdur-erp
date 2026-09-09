@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 $appName = "JIMDUR ERP"
-$appUrl = "https://jimdur-web.soporteia711.chatgpt.site/"
+$appUrl = "https://jimdur.vercel.app/"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $iconPath = Join-Path $scriptDir "JIMDUR.ico"
 
