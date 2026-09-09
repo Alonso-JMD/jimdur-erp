@@ -35,7 +35,7 @@ try {
 
         $shortcut = $shell.CreateShortcut($ShortcutPath)
         $shortcut.TargetPath = $browserPath
-        $shortcut.Arguments = '--app="' + $appUrl + '" --start-maximized'
+        $shortcut.Arguments = '--kiosk ' + $appUrl
         $shortcut.WorkingDirectory = Split-Path -Parent $browserPath
         $shortcut.Description = "Inventario y operaciones de Grupo JIMDUR"
         if (Test-Path $iconPath) {
