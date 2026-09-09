@@ -4062,6 +4062,57 @@ function WarehousesView({
   requestAction: RequestAction;
   onEdit: (warehouse: Warehouse) => void;
 }) {
+  const [selectedWarehouseId, setSelectedWarehouseId] = useState<number | null>(null);
+  const [showInactive, setShowInactive] = useState(false);
+  const [warehouseQuery, setWarehouseQuery] = useState("");
+  const [stockQuery, setStockQuery] = useState("");
+  const [detailTab, setDetailTab] = useState<"stock" | "movements">("stock");
+
+  const activeWarehouses = useMemo(
+    () => snapshot.warehouses.filter((warehouse) => warehouse.active),
+    [snapshot.warehouses],
+  );
+  const inactiveWarehouses = useMemo(
+    () => snapshot.warehouses.filter((warehouse) => !warehouse.active),
+    [snapshot.warehouses],
+  );
+  const effectiveWarehouseId =
+    selectedWarehouseId !== null && snapshot.warehouses.some((warehouse) => warehouse.id === selectedWarehouseId)
+      ? selectedWarehouseId
+      : activeWarehouses[0]?.id ?? snapshot.warehouses[0]?.id ?? null;
+
+  const visibleWarehouses = useMemo(() => {
+    const term = warehouseQuery.trim().toLowerCase();
+    return snapshot.warehouses
+      .filter((warehouse) => showInactive || warehouse.active || warehouse.id === effectiveWarehouseId)
+      .filter((warehouse) =>
+        !term || `${warehouse.code} ${warehouse.name}`.toLowerCase().includes(term),
+      )
+      .sort((first, second) => Number(second.active) - Number(first.active));
+  }, [effectiveWarehouseId, showInactive, snapshot.warehouses, warehouseQuery]);
+
+  const selectedWarehouse = snapshot.warehouses.find(
+    (warehouse) => warehouse.id === effectiveWarehouseId,
+  ) || null;
+  const selectedStock = useMemo(() => {
+    const term = stockQuery.trim().toLowerCase();
+    return snapshot.stock
+      .filter((row) => row.warehouseId === effectiveWarehouseId)
+      .filter((row) =>
+        !term || `${row.code} ${row.name} ${row.location}`.toLowerCase().includes(term),
+      )
+      .sort((first, second) => first.name.localeCompare(second.name, "es"));
+  }, [effectiveWarehouseId, snapshot.stock, stockQuery]);
+  const selectedMovements = useMemo(
+    () => snapshot.movements.filter((movement) => movement.warehouseId === effectiveWarehouseId).slice(0, 20),
+    [effectiveWarehouseId, snapshot.movements],
+  );
+  const totalAvailable = activeWarehouses.reduce((total, warehouse) => total + warehouse.available, 0);
+  const totalPhysical = activeWarehouses.reduce((total, warehouse) => total + warehouse.physical, 0);
+  const lowStockCount = selectedStock.filter(
+    (row) => row.available <= Math.max(row.minimum, 15),
+  ).length;
+
   const toggleWarehouse = async (warehouse: Warehouse) => {
     if (warehouse.active) {
       const confirmed = await requestAction({
@@ -4081,38 +4132,163 @@ function WarehousesView({
       active: !warehouse.active,
     });
   };
+
+  const stockStatus = (row: StockRow) =>
+    row.available <= 0 ? "AGOTADO" : row.available <= Math.max(row.minimum, 15) ? "BAJO" : "NORMAL";
+
   return (
-    <div className="warehouse-grid">
-      {snapshot.warehouses.map((warehouse, index) => (
-        <article className="warehouse-card" key={warehouse.id}>
-          <div className={"warehouse-card-icon " + (index ? "secondary" : "")}>
-            ⌂
-          </div>
-          <div className="warehouse-card-title">
-            <span>{warehouse.code}</span>
-            <h3>{warehouse.name}</h3>
-            <Status value={warehouse.active ? "ACTIVO" : "INACTIVO"} />
-          </div>
-          <dl>
-            <div><dt>Productos con stock</dt><dd>{warehouse.productsWithStock}</dd></div>
-            <div><dt>Stock físico</dt><dd>{n(warehouse.physical)}</dd></div>
-            <div><dt>Reservado</dt><dd>{n(warehouse.reserved)}</dd></div>
-            <div><dt>Disponible</dt><dd>{n(warehouse.available)}</dd></div>
-          </dl>
-          <div className="warehouse-card-actions">
-            <button type="button" onClick={() => onEdit(warehouse)}>EDITAR</button>
-            <button
-              type="button"
-              className={warehouse.active ? "danger" : "activate"}
-              onClick={() => void toggleWarehouse(warehouse)}
-            >
-              {warehouse.active ? "DAR DE BAJA" : "ACTIVAR"}
-            </button>
-          </div>
-        </article>
-      ))}
-      {!snapshot.warehouses.length && (
-        <EmptyState text="Todavía no hay almacenes registrados." />
+    <div className="warehouse-workspace">
+      <section className="warehouse-command-panel">
+        <div className="warehouse-command-copy">
+          <span className="eyebrow">CONTROL DE EXISTENCIAS</span>
+          <h2>Almacenes organizados por operación</h2>
+          <p>Selecciona un almacén para revisar sus productos, saldos y movimientos sin mezclar la información.</p>
+        </div>
+        <label className="warehouse-context-select">
+          <span>ALMACÉN EN USO</span>
+          <select
+            value={effectiveWarehouseId ?? ""}
+            onChange={(event) => {
+              setSelectedWarehouseId(Number(event.target.value));
+              setDetailTab("stock");
+              setStockQuery("");
+            }}
+            disabled={!snapshot.warehouses.length}
+          >
+            {!snapshot.warehouses.length && <option value="">Sin almacenes registrados</option>}
+            {snapshot.warehouses.filter((warehouse) => warehouse.active).map((warehouse) => (
+              <option value={warehouse.id} key={warehouse.id}>{warehouse.name}</option>
+            ))}
+            {selectedWarehouse && !selectedWarehouse.active && (
+              <option value={selectedWarehouse.id}>{selectedWarehouse.name} · inactivo</option>
+            )}
+          </select>
+          <small>La vista se actualiza al cambiar de almacén</small>
+        </label>
+      </section>
+
+      <section className="warehouse-overview-strip" aria-label="Resumen de almacenes">
+        <div><span>ACTIVOS</span><strong>{activeWarehouses.length}</strong><small>operativos</small></div>
+        <div><span>INACTIVOS</span><strong>{inactiveWarehouses.length}</strong><small>en historial</small></div>
+        <div><span>STOCK FÍSICO</span><strong>{n(totalPhysical)}</strong><small>unidades activas</small></div>
+        <div className="selected"><span>DISPONIBLE EN SELECCIÓN</span><strong>{n(selectedWarehouse?.available ?? totalAvailable)}</strong><small>{selectedWarehouse?.name || "vista general"}</small></div>
+      </section>
+
+      {!snapshot.warehouses.length ? (
+        <DataPanel><EmptyState text="Todavía no hay almacenes registrados." /></DataPanel>
+      ) : (
+        <div className="warehouse-content-grid">
+          <aside className="warehouse-directory" aria-label="Directorio de almacenes">
+            <div className="warehouse-directory-heading">
+              <div><span>DIRECTORIO</span><h3>Mis almacenes</h3></div>
+              <strong>{visibleWarehouses.length}</strong>
+            </div>
+            <label className="warehouse-search">
+              <span>⌕</span>
+              <input
+                value={warehouseQuery}
+                onChange={(event) => setWarehouseQuery(event.target.value)}
+                placeholder="Buscar almacén"
+                aria-label="Buscar almacén"
+              />
+            </label>
+            {inactiveWarehouses.length > 0 && (
+              <button
+                type="button"
+                className="warehouse-archive-toggle"
+                onClick={() => setShowInactive((current) => !current)}
+              >
+                <span>{showInactive ? "Ocultar inactivos" : "Ver inactivos"}</span>
+                <b>{inactiveWarehouses.length}</b>
+              </button>
+            )}
+            <div className="warehouse-list">
+              {visibleWarehouses.map((warehouse) => (
+                <button
+                  type="button"
+                  className={`warehouse-list-item ${warehouse.id === effectiveWarehouseId ? "selected" : ""}`}
+                  key={warehouse.id}
+                  onClick={() => {
+                    setSelectedWarehouseId(warehouse.id);
+                    setDetailTab("stock");
+                    setStockQuery("");
+                  }}
+                >
+                  <span className="warehouse-list-icon"><AppIcon name="warehouse" size={17} /></span>
+                  <span className="warehouse-list-copy"><strong>{warehouse.name}</strong><small>{warehouse.code}</small></span>
+                  <span className="warehouse-list-state"><Status value={warehouse.active ? "ACTIVO" : "INACTIVO"} /><b>{n(warehouse.available)}</b></span>
+                </button>
+              ))}
+              {!visibleWarehouses.length && <EmptyInline text="No hay coincidencias." />}
+            </div>
+            <small className="warehouse-directory-note">Selecciona un almacén para trabajar con sus existencias.</small>
+          </aside>
+
+          <section className="warehouse-detail-panel">
+            {selectedWarehouse ? (
+              <>
+                <header className="warehouse-detail-heading">
+                  <div className="warehouse-detail-identity">
+                    <span className="warehouse-detail-icon"><AppIcon name="warehouse" size={24} /></span>
+                    <div>
+                      <span className="warehouse-detail-code">{selectedWarehouse.code}</span>
+                      <h2>{selectedWarehouse.name}</h2>
+                      <div className="warehouse-detail-meta"><Status value={selectedWarehouse.active ? "ACTIVO" : "INACTIVO"} /><span>{selectedWarehouse.productsWithStock} productos con stock</span></div>
+                    </div>
+                  </div>
+                  <div className="warehouse-detail-actions">
+                    <button type="button" onClick={() => onEdit(selectedWarehouse)}><AppIcon name="edit" size={14} />Editar</button>
+                    <button
+                      type="button"
+                      className={selectedWarehouse.active ? "danger" : "activate"}
+                      onClick={() => void toggleWarehouse(selectedWarehouse)}
+                    >
+                      {selectedWarehouse.active ? "Dar de baja" : "Activar"}
+                    </button>
+                  </div>
+                </header>
+
+                <div className="warehouse-detail-metrics">
+                  <div><span>FÍSICO</span><strong>{n(selectedWarehouse.physical)}</strong><small>unidades contadas</small></div>
+                  <div><span>RESERVADO</span><strong>{n(selectedWarehouse.reserved)}</strong><small>comprometidas</small></div>
+                  <div className="available"><span>DISPONIBLE</span><strong>{n(selectedWarehouse.available)}</strong><small>para operar</small></div>
+                  <div className={lowStockCount ? "warning" : "healthy"}><span>ATENCIÓN</span><strong>{lowStockCount}</strong><small>{lowStockCount === 1 ? "producto por revisar" : "productos por revisar"}</small></div>
+                </div>
+
+                <div className="warehouse-detail-tabs" role="tablist" aria-label="Información del almacén">
+                  <button type="button" className={detailTab === "stock" ? "active" : ""} onClick={() => setDetailTab("stock")} role="tab" aria-selected={detailTab === "stock"}><AppIcon name="inventory" size={15} />Existencias</button>
+                  <button type="button" className={detailTab === "movements" ? "active" : ""} onClick={() => setDetailTab("movements")} role="tab" aria-selected={detailTab === "movements"}><AppIcon name="kardex" size={15} />Movimientos recientes</button>
+                </div>
+
+                {detailTab === "stock" ? (
+                  <div className="warehouse-detail-section">
+                    <div className="warehouse-section-heading"><div><h3>Productos de este almacén</h3><span>{selectedStock.length} registros encontrados</span></div><label className="warehouse-stock-search"><span>⌕</span><input value={stockQuery} onChange={(event) => setStockQuery(event.target.value)} placeholder="Código, producto o ubicación" aria-label="Buscar productos del almacén" /></label></div>
+                    <div className="table-wrap warehouse-table-scroll">
+                      <table>
+                        <thead><tr><th>CÓDIGO</th><th>PRODUCTO</th><th>UBICACIÓN</th><th>FÍSICO</th><th>RESERVADO</th><th>DISPONIBLE</th><th>ESTADO</th></tr></thead>
+                        <tbody>{selectedStock.map((row) => <tr key={row.id}><td className="code-cell">{row.code}</td><td className="product-cell">{row.name}<small>{row.unit}</small></td><td>{row.location || "—"}</td><td>{n(row.physical)}</td><td>{n(row.reserved)}</td><td className={row.available <= 0 ? "critical-value" : "available-value"}>{n(row.available)}</td><td><span className={`status-pill ${stockStatus(row).toLowerCase()}`}>{stockStatus(row)}</span></td></tr>)}</tbody>
+                      </table>
+                      {!selectedStock.length && <EmptyState text="Este almacén no tiene productos que coincidan." />}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="warehouse-detail-section">
+                    <div className="warehouse-section-heading"><div><h3>Movimientos recientes</h3><span>Últimos {selectedMovements.length} movimientos registrados</span></div></div>
+                    <div className="table-wrap warehouse-table-scroll">
+                      <table>
+                        <thead><tr><th>FECHA</th><th>DOCUMENTO</th><th>PRODUCTO</th><th>TIPO</th><th>CANTIDAD</th><th>RESPONSABLE</th></tr></thead>
+                        <tbody>{selectedMovements.map((movement) => <tr key={movement.id}><td>{new Date(movement.date).toLocaleDateString("es-PE")}</td><td>{movement.document || "—"}</td><td className="product-cell">{movement.product}<small>{movement.code}</small></td><td><span className={`movement-type ${/ENTR|RECEP|AJUSTE POSITIVO/i.test(movement.type) ? "entry" : /SAL|DESP|AJUSTE NEGATIVO/i.test(movement.type) ? "exit" : "transfer"}`}>{movement.type}</span></td><td>{n(movement.quantity)}</td><td>{movement.userEmail || "—"}</td></tr>)}</tbody>
+                      </table>
+                      {!selectedMovements.length && <EmptyState text="No hay movimientos registrados en este almacén." />}
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <EmptyState text="Selecciona un almacén para ver su detalle." />
+            )}
+          </section>
+        </div>
       )}
     </div>
   );
