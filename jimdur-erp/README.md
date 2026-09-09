@@ -1,7 +1,7 @@
 # JIMDUR ERP — Vercel + Neon
 
 Esta carpeta contiene el proyecto real recuperado de JIMDUR ERP y adaptado para
-ejecutarse fuera de ChatGPT en **Vercel con Neon PostgreSQL**. Se conserva la
+ejecutarse como una aplicación independiente en **Vercel con Neon PostgreSQL**. Se conserva la
 interfaz, las rutas API, la lógica de inventario, autenticación, permisos,
 reportes, importación de archivos y recursos públicos.
 
@@ -109,8 +109,8 @@ secretos en variables `NEXT_PUBLIC_*`.
   requiere cuenta ni API key. Si necesitas operación completamente offline,
   esos archivos pueden autoalojarse y configurarse en el importador.
 
-El portado activo no necesita ChatGPT Auth, Cloudflare D1/R2, Stripe, Supabase
-ni cuentas o API keys de otros servicios.
+La aplicación activa usa autenticación propia de JIMDUR y no necesita
+Cloudflare D1/R2, Stripe, Supabase ni cuentas o API keys de otros servicios.
 
 ## Crear Neon desde Vercel
 
