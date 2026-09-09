@@ -6618,6 +6618,102 @@ textarea:focus-visible {
   }
 }
 
+/* Densidad compacta solicitada: más información visible sin perder claridad */
+.top-header {
+  min-height: 86px;
+}
+
+.page-heading h1 {
+  font-size: 22px;
+}
+
+.content-area {
+  padding: 23px 28px 42px;
+}
+
+.module-toolbar {
+  min-height: 64px;
+  padding: 10px 15px 10px 17px;
+}
+
+.nav-group button {
+  min-height: 42px;
+}
+
+.nav-icon {
+  width: 28px;
+  height: 28px;
+  flex-basis: 28px;
+}
+
+.dashboard-banner {
+  min-height: 132px;
+  padding: 23px 27px;
+}
+
+.dashboard-banner h2 {
+  font-size: 24px;
+}
+
+.metric-card {
+  min-height: 126px;
+  padding: 17px 16px 15px;
+}
+
+.metric-card > strong {
+  font-size: 22px;
+}
+
+.summary-card,
+.data-panel,
+.warehouse-card,
+.migration-steps,
+.import-history,
+.chart-card {
+  border-radius: 14px;
+}
+
+.chart-card {
+  min-height: 274px;
+  padding: 17px;
+}
+
+table {
+  font-size: 10.5px;
+}
+
+th {
+  padding: 11px 10px;
+  font-size: 8.5px;
+}
+
+td {
+  padding: 11px 10px;
+}
+
+.filter-bar {
+  padding: 14px 16px;
+}
+
+@media (max-width: 760px) {
+  .content-area {
+    padding: 15px 12px 106px;
+  }
+
+  .dashboard-banner {
+    min-height: 0;
+    padding: 21px 22px;
+  }
+
+  .dashboard-banner h2 {
+    font-size: 22px;
+  }
+
+  .module-toolbar {
+    padding: 11px 14px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
