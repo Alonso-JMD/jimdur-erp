@@ -761,6 +761,10 @@ function money(value: number) {
 
 function dateTime(value: string) {
   if (!value) return "—";
+  const dateOnlyMatch = value.match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+  if (dateOnlyMatch) {
+    return `${dateOnlyMatch[3]}/${dateOnlyMatch[2]}/${dateOnlyMatch[1]}`;
+  }
   const normalized = value.includes("T") ? value : value.replace(" ", "T") + "Z";
   const parsed = new Date(normalized);
   if (Number.isNaN(parsed.getTime())) return value;
