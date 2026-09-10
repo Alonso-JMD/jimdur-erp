@@ -757,6 +757,7 @@ export async function getSnapshot(user: AppUser): Promise<Snapshot> {
     transferRows,
     userRows,
     importRows,
+    auditLogRows,
   ] = await Promise.all([
     allRows(
       "SELECT p.id,p.code,COALESCE(p.supplier_code,'') supplier_code,p.name,COALESCE(p.brand,'') brand,COALESCE(p.application,'') application,p.unit,COALESCE(p.location,'') location,p.cost,p.minimum_stock,p.active,COALESCE(SUM(s.physical),0) physical,COALESCE(SUM(s.reserved),0) reserved,COALESCE(SUM(s.damaged),0) damaged FROM products p LEFT JOIN stock s ON s.product_id=p.id GROUP BY p.id ORDER BY p.name",
@@ -797,6 +798,11 @@ export async function getSnapshot(user: AppUser): Promise<Snapshot> {
     allRows(
       "SELECT id,imported_at,COALESCE(source_server,'') source_server,COALESCE(source_database,'') source_database,COALESCE(user_email,'') user_email,summary FROM import_runs ORDER BY id DESC LIMIT 20",
     ),
+    user.permissions.includes("reports")
+      ? allRows(
+          "SELECT id,occurred_at,COALESCE(user_email,'') user_email,action,module,COALESCE(entity,'') entity,COALESCE(record_key,'') record_key,COALESCE(detail,'') detail FROM audit_logs ORDER BY occurred_at DESC,id DESC LIMIT 500",
+        )
+      : Promise.resolve([] as DbRow[]),
   ]);
 
   return {
@@ -978,6 +984,16 @@ export async function getSnapshot(user: AppUser): Promise<Snapshot> {
       sourceDatabase: asText(row.source_database),
       userEmail: asText(row.user_email),
       summary: asText(row.summary),
+    })),
+    auditLogs: auditLogRows.map((row) => ({
+      id: asNumber(row.id),
+      occurredAt: asText(row.occurred_at),
+      userEmail: asText(row.user_email),
+      action: asText(row.action),
+      module: asText(row.module),
+      entity: asText(row.entity),
+      recordKey: asText(row.record_key),
+      detail: asText(row.detail),
     })),
     generatedAt: new Date().toISOString(),
   };
