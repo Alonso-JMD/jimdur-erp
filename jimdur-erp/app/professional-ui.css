@@ -1,0 +1,695 @@
+/*
+ * JIMDUR ERP — capa visual compacta
+ * Mantiene la lógica y los datos intactos; solo mejora jerarquía, densidad y lectura.
+ */
+
+/* Encabezado global: una sola franja compacta, sin duplicar el nombre del sistema. */
+.app-shell .top-header {
+  min-height: 64px;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 14px;
+  padding: 8px 22px;
+  border-bottom-color: #d4e0e9;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 5px 18px rgba(20, 49, 78, 0.055);
+}
+
+.app-shell .page-kicker {
+  display: none;
+}
+
+.app-shell .page-heading h1 {
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+.app-shell .page-heading p {
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.app-shell .header-status {
+  min-width: 0;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-shell .status-online {
+  padding: 4px 8px;
+  font-size: 10px;
+}
+
+.app-shell .sync-time {
+  margin-top: 0;
+  font-size: 9px;
+}
+
+.app-shell .header-mode {
+  min-width: 145px;
+  min-height: 38px;
+  justify-content: center;
+  padding-left: 14px;
+}
+
+.app-shell .header-mode strong {
+  margin-top: 3px;
+  font-size: 9px;
+}
+
+.app-shell .mode-chip {
+  padding: 3px 7px;
+  font-size: 8px;
+}
+
+/* Reduce el espacio entre el encabezado y el contenido útil. */
+.app-shell .content-area {
+  padding: 12px 24px 38px;
+}
+
+.app-shell .module-toolbar {
+  min-height: 54px;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 8px 12px 8px 15px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(20, 49, 78, 0.045);
+}
+
+.app-shell .module-toolbar > div:first-child {
+  flex-direction: row;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.app-shell .module-toolbar > div:first-child span {
+  font-size: 9px;
+}
+
+.app-shell .module-toolbar > div:first-child small {
+  margin-top: 0;
+  font-size: 9px;
+}
+
+.app-shell .toolbar-buttons {
+  gap: 6px;
+}
+
+.app-shell .toolbar-buttons button,
+.app-shell .filter-export {
+  min-height: 34px;
+  padding: 7px 10px;
+  font-size: 9px;
+}
+
+/* Base común de los cuatro módulos. */
+.app-shell .dashboard-stack,
+.app-shell .orders-workspace,
+.app-shell .warehouse-workspace {
+  gap: 12px;
+}
+
+.app-shell .data-panel {
+  border-radius: 13px;
+  box-shadow: 0 9px 24px rgba(18, 59, 103, 0.055);
+}
+
+.app-shell .panel-summary {
+  min-height: 53px;
+  padding: 9px 13px;
+  background: linear-gradient(180deg, #fcfdff, #f6f9fb);
+}
+
+.app-shell .panel-summary strong {
+  font-size: 9px;
+}
+
+.app-shell .panel-summary span {
+  font-size: 8.5px;
+}
+
+.app-shell table {
+  font-size: 10.5px;
+}
+
+.app-shell th {
+  padding: 10px 9px;
+  font-size: 8px;
+}
+
+.app-shell td {
+  padding: 10px 9px;
+}
+
+.app-shell .table-wrap {
+  scrollbar-color: #a7bfd2 #eef3f7;
+  scrollbar-width: thin;
+}
+
+.app-shell .table-action {
+  min-height: 30px;
+  padding: 6px 9px;
+  border-radius: 7px;
+  font-size: 8px;
+  font-weight: 850;
+}
+
+/* Almacenes: más aire entre contextos, menos altura desperdiciada. */
+.app-shell .warehouse-command-panel {
+  gap: 18px;
+  padding: 15px 18px;
+  border-radius: 13px;
+  box-shadow: 0 8px 20px rgba(18, 59, 103, 0.045);
+}
+
+.app-shell .warehouse-command-copy h2 {
+  margin: 4px 0 3px;
+  font-size: 18px;
+}
+
+.app-shell .warehouse-command-copy p {
+  font-size: 10.5px;
+}
+
+.app-shell .warehouse-context-select {
+  flex-basis: 285px;
+  gap: 5px;
+  font-size: 8px;
+}
+
+.app-shell .warehouse-context-select select {
+  min-height: 38px;
+  font-size: 11px;
+}
+
+.app-shell .warehouse-context-select small {
+  font-size: 8px;
+}
+
+.app-shell .warehouse-overview-strip {
+  border-radius: 11px;
+}
+
+.app-shell .warehouse-overview-strip > div {
+  padding: 10px 13px;
+}
+
+.app-shell .warehouse-overview-strip strong {
+  font-size: 18px;
+}
+
+.app-shell .warehouse-overview-strip small {
+  font-size: 8px;
+}
+
+.app-shell .warehouse-content-grid {
+  grid-template-columns: minmax(250px, 285px) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.app-shell .warehouse-directory,
+.app-shell .warehouse-detail-panel {
+  border-radius: 13px;
+  box-shadow: 0 9px 24px rgba(18, 59, 103, 0.055);
+}
+
+.app-shell .warehouse-directory-heading {
+  padding: 14px 15px 11px;
+}
+
+.app-shell .warehouse-search {
+  margin: 10px 11px 7px;
+}
+
+.app-shell .warehouse-search input {
+  min-height: 33px;
+  font-size: 10px;
+}
+
+.app-shell .warehouse-list {
+  max-height: 420px;
+  padding: 0 7px 8px;
+}
+
+.app-shell .warehouse-list-item {
+  grid-template-columns: 31px minmax(0, 1fr) auto;
+  gap: 8px;
+  margin: 3px 0;
+  padding: 7px 7px;
+}
+
+.app-shell .warehouse-list-icon {
+  width: 31px;
+  height: 31px;
+}
+
+.app-shell .warehouse-list-copy strong {
+  font-size: 10px;
+}
+
+.app-shell .warehouse-list-copy small,
+.app-shell .warehouse-list-state b {
+  font-size: 8px;
+}
+
+.app-shell .warehouse-directory-note {
+  padding: 8px 14px 12px;
+  font-size: 8px;
+}
+
+.app-shell .warehouse-detail-heading {
+  gap: 12px;
+  padding: 15px 16px 13px;
+}
+
+.app-shell .warehouse-detail-icon {
+  width: 46px;
+  height: 46px;
+  flex-basis: 46px;
+  border-radius: 12px;
+}
+
+.app-shell .warehouse-detail-identity {
+  gap: 10px;
+}
+
+.app-shell .warehouse-detail-identity h2 {
+  margin: 3px 0 5px;
+  font-size: 17px;
+}
+
+.app-shell .warehouse-detail-meta {
+  gap: 6px;
+  font-size: 9px;
+}
+
+.app-shell .warehouse-detail-actions button {
+  min-height: 31px;
+  padding: 6px 9px;
+  font-size: 8px;
+}
+
+.app-shell .warehouse-detail-metrics > div {
+  padding: 10px 12px;
+}
+
+.app-shell .warehouse-detail-metrics strong {
+  font-size: 18px;
+}
+
+.app-shell .warehouse-detail-tabs {
+  padding: 8px 12px 0;
+}
+
+.app-shell .warehouse-detail-tabs button {
+  min-height: 34px;
+  padding: 7px 9px;
+  font-size: 9px;
+}
+
+.app-shell .warehouse-summary-view {
+  padding: 0 15px 15px;
+}
+
+.app-shell .warehouse-summary-heading {
+  padding: 14px 0 11px;
+}
+
+.app-shell .warehouse-summary-cards {
+  gap: 8px;
+  padding: 12px 0;
+}
+
+.app-shell .warehouse-summary-cards article {
+  padding: 10px 11px;
+}
+
+.app-shell .warehouse-summary-cards article > strong {
+  font-size: 19px;
+}
+
+.app-shell .warehouse-quick-actions {
+  gap: 12px;
+  padding: 14px 0;
+}
+
+.app-shell .warehouse-quick-actions-copy h3 {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.app-shell .warehouse-quick-actions-copy p {
+  font-size: 9px;
+}
+
+.app-shell .warehouse-quick-action-buttons button {
+  min-height: 62px;
+  padding: 8px;
+}
+
+.app-shell .warehouse-info-note {
+  margin-top: 11px;
+  padding: 9px 10px;
+  font-size: 9px;
+}
+
+/* Recepciones: encabezado corto y tabla legible sin perder acciones. */
+.app-shell .receipt-list-summary {
+  min-height: 54px;
+}
+
+.app-shell .receipt-list-table {
+  max-height: min(62vh, 620px);
+}
+
+.app-shell .receipt-list-table table {
+  min-width: 930px;
+}
+
+.app-shell .receipt-list-table th:last-child,
+.app-shell .receipt-list-table td:last-child,
+.app-shell .order-list-table th:last-child,
+.app-shell .order-list-table td:last-child {
+  position: sticky;
+  z-index: 3;
+  right: 0;
+  min-width: 112px;
+  background: #fff;
+  box-shadow: -8px 0 12px rgba(18, 59, 103, 0.06);
+}
+
+.app-shell .receipt-list-table th:last-child,
+.app-shell .order-list-table th:last-child {
+  background: #eef4f8;
+}
+
+.app-shell .receipt-list-table tbody tr:nth-child(even) td:last-child,
+.app-shell .order-list-table tbody tr:nth-child(even) td:last-child {
+  background: #fbfcfe;
+}
+
+.app-shell .receipt-list-table tbody tr:hover td:last-child,
+.app-shell .order-list-table tbody tr:hover td:last-child,
+.app-shell .receipt-list-table tbody tr.selected-receipt-row td:last-child,
+.app-shell .order-list-table tbody tr.selected-order-row td:last-child {
+  background: #edf6fc;
+}
+
+/* Pedidos: separar la decisión de flujo del listado operativo. */
+.app-shell .order-mode-bar {
+  gap: 10px;
+  padding: 11px;
+  border-radius: 13px;
+  box-shadow: 0 8px 20px rgba(18, 59, 103, 0.045);
+}
+
+.app-shell .order-mode-bar > div {
+  gap: 3px;
+}
+
+.app-shell .order-mode-bar > div strong {
+  font-size: 12px;
+}
+
+.app-shell .order-mode-button {
+  min-height: 50px;
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+.app-shell .order-mode-button b {
+  width: 30px;
+  height: 30px;
+  flex-basis: 30px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.app-shell .order-mode-button span {
+  font-size: 8.5px;
+}
+
+.app-shell .order-mode-button small {
+  font-size: 7.5px;
+}
+
+.app-shell .order-list-summary {
+  min-height: 54px;
+}
+
+.app-shell .order-list-table {
+  max-height: min(58vh, 590px);
+}
+
+.app-shell .order-list-table table {
+  min-width: 1120px;
+}
+
+/* Reportes: filtros alineados y resumen con lectura ejecutiva. */
+.app-shell .report-preset-bar {
+  min-height: 54px;
+  padding: 9px 13px;
+  background: linear-gradient(180deg, #fcfdff, #f5f8fb);
+}
+
+.app-shell .report-preset-bar strong {
+  font-size: 9px;
+}
+
+.app-shell .report-preset-bar span {
+  font-size: 8px;
+}
+
+.app-shell .report-preset-buttons {
+  gap: 5px;
+}
+
+.app-shell .report-preset-buttons button {
+  min-height: 29px;
+  padding: 6px 9px;
+  font-size: 8px;
+}
+
+.app-shell .report-preset-buttons button.active {
+  box-shadow: 0 4px 10px rgba(31, 111, 178, 0.17);
+}
+
+.app-shell .report-preset-bar + .filter-bar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(125px, 1fr)) minmax(210px, 1.55fr) auto;
+  align-items: end;
+  gap: 10px;
+  padding: 12px 13px;
+}
+
+.app-shell .report-preset-bar + .filter-bar .filter-result {
+  min-height: 43px;
+}
+
+.app-shell .report-summary-strip > div {
+  padding: 10px 13px;
+}
+
+.app-shell .report-summary-strip strong {
+  font-size: 10px;
+}
+
+.app-shell .report-summary-strip small {
+  font-size: 7px;
+}
+
+.app-shell .report-summary-strip {
+  grid-template-columns: minmax(120px, .7fr) minmax(170px, 1fr) minmax(210px, 1.35fr);
+}
+
+/* Evita que el contenido cree una segunda barra horizontal del sitio. */
+.app-shell .workspace {
+  overflow-x: hidden;
+}
+
+@media (max-width: 1260px) and (min-width: 1001px) {
+  .app-shell .top-header {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 10px;
+    padding-inline: 17px;
+  }
+
+  .app-shell .header-status {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0;
+  }
+
+  .app-shell .sync-time {
+    margin-top: 3px;
+  }
+
+  .app-shell .content-area {
+    padding-inline: 18px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .app-shell .top-header {
+    min-height: 64px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 8px 14px;
+  }
+
+  .app-shell .header-status {
+    min-width: 0;
+  }
+
+  .app-shell .menu-toggle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .app-shell .content-area {
+    padding-inline: 16px;
+  }
+
+  .app-shell .warehouse-content-grid {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell .top-header {
+    min-height: 58px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "menu heading mode";
+    padding: 7px 11px;
+  }
+
+  .app-shell .page-heading h1 {
+    font-size: 16px;
+  }
+
+  .app-shell .page-heading p {
+    display: none;
+  }
+
+  .app-shell .header-status {
+    display: none;
+  }
+
+  .app-shell .header-mode {
+    min-width: 0;
+    min-height: 32px;
+    padding-left: 9px;
+  }
+
+  .app-shell .header-mode strong {
+    display: none;
+  }
+
+  .app-shell .content-area {
+    padding: 9px 10px 98px;
+  }
+
+  .app-shell .module-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding: 10px 11px;
+  }
+
+  .app-shell .module-toolbar > div:first-child {
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 5px 8px;
+  }
+
+  .app-shell .toolbar-buttons {
+    justify-content: flex-start;
+  }
+
+  .app-shell .toolbar-buttons button,
+  .app-shell .filter-export {
+    flex: 1 1 auto;
+  }
+
+  .app-shell .panel-summary {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .app-shell .receipt-list-table,
+  .app-shell .order-list-table {
+    max-height: none;
+  }
+
+  .app-shell .warehouse-command-panel {
+    align-items: stretch;
+    padding: 13px 14px;
+  }
+
+  .app-shell .warehouse-overview-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .app-shell .warehouse-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .app-shell .warehouse-list {
+    max-height: none;
+  }
+
+  .app-shell .warehouse-summary-view {
+    padding-right: 13px;
+    padding-left: 13px;
+  }
+
+  .app-shell .order-mode-bar,
+  .app-shell .order-mode-bar.single-mode {
+    grid-template-columns: 1fr;
+  }
+
+  .app-shell .order-mode-bar > div:first-child {
+    grid-column: auto;
+  }
+
+  .app-shell .report-preset-bar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .app-shell .report-preset-buttons {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .app-shell .report-preset-buttons button {
+    flex: 1;
+  }
+
+  .app-shell .report-preset-bar + .filter-bar {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 9px;
+    padding: 11px 12px;
+  }
+
+  .app-shell .report-preset-bar + .filter-bar .filter-result {
+    min-height: 44px;
+  }
+
+  .app-shell .report-summary-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *,
+  .app-shell *::before,
+  .app-shell *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
