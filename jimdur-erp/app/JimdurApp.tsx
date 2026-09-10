@@ -1012,11 +1012,31 @@ function SearchCombobox({
   );
 }
 
-function printAsPdf(fileName: string) {
+function printAsPdf(
+  fileName: string,
+  mode: "document" | "ticket" = "document",
+) {
   const previousTitle = document.title;
+  const previousMode = document.body.dataset.printMode;
+  const restore = () => {
+    document.title = previousTitle;
+    if (previousMode === undefined) {
+      delete document.body.dataset.printMode;
+    } else {
+      document.body.dataset.printMode = previousMode;
+    }
+    window.removeEventListener("afterprint", restore);
+  };
+
   document.title = fileName.replace(/[^A-Za-z0-9ÁÉÍÓÚÑáéíóúñ._-]+/g, "_");
-  window.print();
-  document.title = previousTitle;
+  document.body.dataset.printMode = mode;
+  window.addEventListener("afterprint", restore, { once: true });
+
+  try {
+    window.print();
+  } catch {
+    restore();
+  }
 }
 
 function downloadBlob(content: string, name: string, type: string) {
@@ -1042,6 +1062,18 @@ function downloadCsv(
     .map((row) => row.map(csvCell).join(";"))
     .join("\n");
   downloadBlob("\ufeff" + content, name, "text/csv;charset=utf-8");
+}
+
+async function downloadXlsx(
+  headers: string[],
+  rows: Array<Array<string | number>>,
+  name: string,
+) {
+  const XLSX = await import("xlsx");
+  const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Detalle");
+  XLSX.writeFile(workbook, name);
 }
 
 function hasPermission(snapshot: Snapshot, key?: string) {
@@ -3028,8 +3060,8 @@ function ProformaDetail({
     }, 180);
     return () => window.clearTimeout(timer);
   }, [autoPrint, onPrinted, proforma.number]);
-  const exportDetail = () => {
-    downloadCsv(
+  const exportDetail = async () => {
+    await downloadXlsx(
       ["CÓDIGO", "PRODUCTO", "UNIDAD", "CANTIDAD", "PRECIO UNITARIO", "SUBTOTAL"],
       lines.map((line) => [
         line.code,
@@ -3039,7 +3071,7 @@ function ProformaDetail({
         line.price,
         line.subtotal,
       ]),
-      proforma.number + ".csv",
+      proforma.number + ".xlsx",
     );
   };
 
@@ -3058,8 +3090,8 @@ function ProformaDetail({
         <div className="order-detail-toolbar">
         <button onClick={onBack}>← VOLVER A PROFORMAS</button>
         <div>
-          <button onClick={exportDetail}>⇩ EXPORTAR ESTA PROFORMA A EXCEL</button>
-          <button onClick={() => printAsPdf("Proforma_" + proforma.number)}>▤ EXPORTAR ESTA PROFORMA A PDF</button>
+          <button onClick={() => void exportDetail()}>⇩ EXPORTAR DETALLE A EXCEL</button>
+          <button onClick={() => printAsPdf("Proforma_" + proforma.number)}>▤ IMPRIMIR / GUARDAR PDF</button>
           <Status value={proforma.status} />
         </div>
         </div>
@@ -3122,7 +3154,7 @@ function ProformaDetail({
 function ProformaPrintDocument({ proforma }: { proforma: Proforma }) {
   const lines = proforma.lines ?? [];
   return (
-    <section className="print-document" aria-hidden="true">
+    <section className="print-document print-proforma" aria-hidden="true">
       <PrintableDocumentHeader title="PROFORMA" number={proforma.number} />
       <table className="document-meta-table">
         <tbody>
@@ -3985,6 +4017,22 @@ function OrderDetail({
     return () => window.clearTimeout(timer);
   }, [autoPrint, onPrinted, order.number]);
 
+  const exportOrder = async () => {
+    await downloadXlsx(
+      ["CÓDIGO", "PRODUCTO", "UNIDAD", "UBICACIÓN", "SOLICITADA", "RESERVADA", "DESPACHADA"],
+      lines.map((line) => [
+        line.code,
+        line.name,
+        line.unit,
+        line.location,
+        line.requested,
+        line.reserved,
+        line.dispatched,
+      ]),
+      "Orden_Salida_" + compactOperationalNumber(order.number) + ".xlsx",
+    );
+  };
+
   const changeStatus = async (targetStatus: string) => {
     if (targetStatus === "DESPACHADA") {
       const confirmed = await requestAction({
@@ -4033,6 +4081,7 @@ function OrderDetail({
   return (
     <DataPanel>
       <OrderPrintDocument order={order} />
+      <TicketPrintDocument order={order} />
       <div className="screen-document-ui">
         <div className="order-print-header">
         <img src="/jimdur-app-logo.png" alt="JIMDUR" />
@@ -4042,7 +4091,9 @@ function OrderDetail({
         <div className="order-detail-toolbar">
         <button onClick={onBack}>← VOLVER A LA LISTA</button>
         <div>
-          <button onClick={() => printAsPdf("Orden_Salida_" + compactOperationalNumber(order.number))}>▤ EXPORTAR ESTA ORDEN A PDF</button>
+          <button onClick={() => void exportOrder()}>⇩ EXPORTAR DETALLE A EXCEL</button>
+          <button onClick={() => printAsPdf("Orden_Salida_" + compactOperationalNumber(order.number))}>▤ IMPRIMIR / GUARDAR PDF</button>
+          <button onClick={() => printAsPdf("Ticket_Salida_" + compactOperationalNumber(order.number), "ticket")}>▤ IMPRIMIR TICKET 80 MM</button>
           <Status value={current} />
         </div>
         </div>
@@ -4123,7 +4174,7 @@ function OrderDetail({
 function OrderPrintDocument({ order }: { order: Order }) {
   const lines = order.lines ?? [];
   return (
-    <section className="print-document" aria-hidden="true">
+    <section className="print-document print-order" aria-hidden="true">
       <PrintableDocumentHeader title="ORDEN DE SALIDA" number={compactOperationalNumber(order.number)} />
       <table className="document-meta-table">
         <tbody>
@@ -4154,6 +4205,53 @@ function OrderPrintDocument({ order }: { order: Order }) {
       </table>
       <div className="document-summary"><strong>TOTAL DE ÍTEMS: {lines.length}</strong></div>
       {order.notes && <p className="document-footnote"><b>OBSERVACIÓN:</b> {order.notes}</p>}
+    </section>
+  );
+}
+
+function TicketPrintDocument({ order }: { order: Order }) {
+  const lines = order.lines ?? [];
+  const status = normalizedOrderStatus(order.status);
+
+  return (
+    <section className="print-document print-ticket" aria-hidden="true">
+      <div className="ticket-brand">
+        <img src="/jimdur-app-logo.png" alt="JIMDUR" />
+        <strong>JIMDUR ERP</strong>
+        <span>GRUPO JIMDUR E.I.R.L.</span>
+      </div>
+      <div className="ticket-heading">
+        <strong>TICKET DE SALIDA</strong>
+        <b>{compactOperationalNumber(order.number)}</b>
+      </div>
+      <dl className="ticket-meta">
+        <div><dt>FECHA</dt><dd>{dateOnly(order.date)}</dd></div>
+        <div><dt>ALMACÉN</dt><dd>{order.warehouse}</dd></div>
+        <div><dt>DESTINO</dt><dd>{order.destination}</dd></div>
+        <div><dt>ESTADO</dt><dd>{status}</dd></div>
+      </dl>
+      <div className="ticket-lines">
+        {lines.map((line) => (
+          <div className="ticket-line" key={line.id}>
+            <div>
+              <strong>{line.name}</strong>
+              <small>{line.code} · {line.unit}</small>
+            </div>
+            <b>{n(line.requested)}</b>
+          </div>
+        ))}
+      </div>
+      <div className="ticket-total">
+        <span>TOTAL DE UNIDADES</span>
+        <strong>{n(order.requested)}</strong>
+      </div>
+      {order.notes && (
+        <p className="ticket-note"><b>OBSERVACIÓN:</b> {order.notes}</p>
+      )}
+      <div className="ticket-footer">
+        <span>Usuario: {order.userEmail || "—"}</span>
+        <span>JIMDUR ERP</span>
+      </div>
     </section>
   );
 }
