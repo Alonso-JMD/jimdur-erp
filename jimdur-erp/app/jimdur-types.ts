@@ -190,6 +190,17 @@ export type ImportRun = {
   summary: string;
 };
 
+export type AuditLog = {
+  id: number;
+  occurredAt: string;
+  userEmail: string;
+  action: string;
+  module: string;
+  entity: string;
+  recordKey: string;
+  detail: string;
+};
+
 export type Snapshot = {
   user: AppUser;
   products: Product[];
@@ -203,6 +214,7 @@ export type Snapshot = {
   transfers: Transfer[];
   users: AppUser[];
   imports: ImportRun[];
+  auditLogs: AuditLog[];
   generatedAt: string;
 };
 
