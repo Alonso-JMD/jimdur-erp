@@ -2579,19 +2579,11 @@ function useTablePagination<T>(
   rows: T[],
   resetKey = "",
 ): TablePaginationState<T> {
-  const [page, setPage] = useState(1);
+  const [pageState, setPageState] = useState({ page: 1, resetKey });
   const [pageSize, setPageSize] = useState(10);
   const totalRows = rows.length;
   const totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
-
-  useEffect(() => {
-    setPage(1);
-  }, [resetKey]);
-
-  useEffect(() => {
-    if (page > totalPages) setPage(totalPages);
-  }, [page, totalPages]);
-
+  const page = pageState.resetKey === resetKey ? pageState.page : 1;
   const safePage = Math.min(page, totalPages);
   const startIndex = (safePage - 1) * pageSize;
 
@@ -2603,10 +2595,12 @@ function useTablePagination<T>(
     totalRows,
     start: totalRows ? startIndex + 1 : 0,
     end: Math.min(startIndex + pageSize, totalRows),
-    onPageChange: setPage,
+    onPageChange: (nextPage) => {
+      setPageState({ page: nextPage, resetKey });
+    },
     onPageSizeChange: (nextPageSize) => {
       setPageSize(nextPageSize);
-      setPage(1);
+      setPageState({ page: 1, resetKey });
     },
   };
 }
