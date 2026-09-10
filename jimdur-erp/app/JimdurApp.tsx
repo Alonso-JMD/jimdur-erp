@@ -44,6 +44,7 @@ type ModuleKey =
   | "products"
   | "warehouses"
   | "reports"
+  | "audit"
   | "users"
   | "backups";
 
@@ -189,6 +190,11 @@ const MODULES: Record<
     subtitle: "Consulta y exportación de movimientos",
     permission: "reports",
   },
+  audit: {
+    title: "Bitácora",
+    subtitle: "Registro de operaciones y cambios del sistema",
+    permission: "reports",
+  },
   users: {
     title: "Usuarios",
     subtitle: "Accesos, perfiles y permisos",
@@ -236,7 +242,10 @@ const NAV_GROUPS: Array<{
   },
   {
     label: "GESTIÓN",
-    items: [{ key: "reports", label: "Reportes", icon: "report" }],
+    items: [
+      { key: "reports", label: "Reportes", icon: "report" },
+      { key: "audit", label: "Bitácora", icon: "clock" },
+    ],
   },
   {
     label: "SISTEMA",
@@ -2205,6 +2214,8 @@ function renderModule(
       return (
         <ReportsView snapshot={snapshot} setNotice={context.setNotice} />
       );
+    case "audit":
+      return <AuditLogView snapshot={snapshot} />;
     case "users":
       return (
         <UsersView
@@ -2384,6 +2395,56 @@ function DashboardView({
         <Metric tone="cobalt" label="ENTRADAS" value={n(entries.reduce((sum, movement) => sum + movement.quantity, 0))} note={`${entries.length} movimientos registrados`} icon="receive" onClick={() => onNavigate("kardex")} />
         <Metric tone="amber" label="SALIDAS" value={n(exits.reduce((sum, movement) => sum + movement.quantity, 0))} note={`${exits.length} movimientos registrados`} icon="dispatch" onClick={() => onNavigate("kardex")} />
       </section>
+      <section className="dashboard-alerts" aria-label="Alertas operativas">
+        <button
+          className={"dashboard-alert " + (critical ? "danger" : "healthy")}
+          onClick={() => onNavigate("critical")}
+        >
+          <span className="dashboard-alert-icon"><AppIcon name="alert" size={17} /></span>
+          <span className="dashboard-alert-copy">
+            <small>STOCK CRÍTICO</small>
+            <strong>{critical}</strong>
+            <em>{critical ? "productos requieren revisión" : "sin alertas activas"}</em>
+          </span>
+          <b className="dashboard-alert-arrow">→</b>
+        </button>
+        <button
+          className={"dashboard-alert " + (pendingOrders ? "warning" : "healthy")}
+          onClick={() => onNavigate("orders")}
+        >
+          <span className="dashboard-alert-icon"><AppIcon name="dispatch" size={17} /></span>
+          <span className="dashboard-alert-copy">
+            <small>ÓRDENES PENDIENTES</small>
+            <strong>{pendingOrders}</strong>
+            <em>{pendingOrders ? "operaciones por atender" : "sin pendientes"}</em>
+          </span>
+          <b className="dashboard-alert-arrow">→</b>
+        </button>
+        <button
+          className={"dashboard-alert " + (pendingReceipts ? "warning" : "healthy")}
+          onClick={() => onNavigate("receipts")}
+        >
+          <span className="dashboard-alert-icon"><AppIcon name="receive" size={17} /></span>
+          <span className="dashboard-alert-copy">
+            <small>RECEPCIONES PENDIENTES</small>
+            <strong>{pendingReceipts}</strong>
+            <em>{pendingReceipts ? "ingresos por revisar" : "todo confirmado"}</em>
+          </span>
+          <b className="dashboard-alert-arrow">→</b>
+        </button>
+        <button
+          className={"dashboard-alert " + (todayMovements ? "info" : "warning")}
+          onClick={() => onNavigate("kardex")}
+        >
+          <span className="dashboard-alert-icon"><AppIcon name="clock" size={17} /></span>
+          <span className="dashboard-alert-copy">
+            <small>ACTIVIDAD DE HOY</small>
+            <strong>{todayMovements}</strong>
+            <em>{todayMovements ? "movimientos registrados" : "sin movimientos todavía"}</em>
+          </span>
+          <b className="dashboard-alert-arrow">→</b>
+        </button>
+      </section>
       <section className="executive-chart-grid">
         <DashboardLineChart title="Movimientos de inventario" subtitle="Entradas y salidas · últimos 30 días" rows={movementDays} />
         <DashboardBarChart title="Stock por categoría" subtitle="Unidades disponibles" rows={categoryStock} />
@@ -2463,6 +2524,111 @@ function Metric({
   );
 }
 
+
+const TABLE_PAGE_SIZES = [10, 25, 50] as const;
+
+type TablePaginationProps = {
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalRows: number;
+  start: number;
+  end: number;
+  onPageChange: (page: number) => void;
+  onPageSizeChange: (pageSize: number) => void;
+};
+
+type TablePaginationState<T> = TablePaginationProps & {
+  pageRows: T[];
+};
+
+function useTablePagination<T>(
+  rows: T[],
+  resetKey = "",
+): TablePaginationState<T> {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const totalRows = rows.length;
+  const totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
+
+  useEffect(() => {
+    setPage(1);
+  }, [resetKey]);
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [page, totalPages]);
+
+  const safePage = Math.min(page, totalPages);
+  const startIndex = (safePage - 1) * pageSize;
+
+  return {
+    pageRows: rows.slice(startIndex, startIndex + pageSize),
+    page: safePage,
+    pageSize,
+    totalPages,
+    totalRows,
+    start: totalRows ? startIndex + 1 : 0,
+    end: Math.min(startIndex + pageSize, totalRows),
+    onPageChange: setPage,
+    onPageSizeChange: (nextPageSize) => {
+      setPageSize(nextPageSize);
+      setPage(1);
+    },
+  };
+}
+
+function TablePagination({
+  pagination,
+}: {
+  pagination: TablePaginationProps;
+}) {
+  if (!pagination.totalRows) return null;
+
+  return (
+    <div className="table-pagination" aria-label="Paginación de resultados">
+      <span>
+        Mostrando {pagination.start}–{pagination.end} de {pagination.totalRows}
+      </span>
+      <div className="table-pagination-controls">
+        <label>
+          <span>Filas</span>
+          <select
+            aria-label="Filas por página"
+            value={pagination.pageSize}
+            onChange={(event) =>
+              pagination.onPageSizeChange(Number(event.target.value))
+            }
+          >
+            {TABLE_PAGE_SIZES.map((size) => (
+              <option key={size} value={size}>{size}</option>
+            ))}
+          </select>
+        </label>
+        <button
+          type="button"
+          aria-label="Página anterior"
+          disabled={pagination.page <= 1}
+          onClick={() => pagination.onPageChange(pagination.page - 1)}
+        >
+          ‹
+        </button>
+        <strong>
+          Página {pagination.page} de {pagination.totalPages}
+        </strong>
+        <button
+          type="button"
+          aria-label="Página siguiente"
+          disabled={pagination.page >= pagination.totalPages}
+          onClick={() => pagination.onPageChange(pagination.page + 1)}
+        >
+          ›
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function InventoryView({ snapshot }: { snapshot: Snapshot }) {
   const [query, setQuery] = useState("");
   const [warehouseId, setWarehouseId] = useState(0);
@@ -2508,7 +2674,7 @@ function InventoryView({ snapshot }: { snapshot: Snapshot }) {
           <span>productos con stock</span>
         </div>
       </FilterBar>
-      <StockTable rows={filtered} />
+      <StockTable rows={filtered} resetKey={query + "|" + warehouseId} />
     </DataPanel>
   );
 }
@@ -2521,11 +2687,16 @@ function ProductsView({
   onEdit: (product: Product) => void;
 }) {
   const [query, setQuery] = useState("");
-  const filtered = snapshot.products.filter((product) =>
-    (product.code + " " + product.name + " " + product.brand)
-      .toLowerCase()
-      .includes(query.trim().toLowerCase()),
+  const filtered = useMemo(
+    () =>
+      snapshot.products.filter((product) =>
+        (product.code + " " + product.name + " " + product.brand)
+          .toLowerCase()
+          .includes(query.trim().toLowerCase()),
+      ),
+    [query, snapshot.products],
   );
+  const pagination = useTablePagination(filtered, query);
   return (
     <DataPanel>
       <FilterBar>
@@ -2557,7 +2728,7 @@ function ProductsView({
             </tr>
           </thead>
           <tbody>
-            {filtered.map((product) => (
+            {pagination.pageRows.map((product) => (
               <tr key={product.id} onDoubleClick={() => onEdit(product)}>
                 <td className="code-cell">{product.code}</td>
                 <td className="product-cell">{product.name}</td>
@@ -2579,6 +2750,7 @@ function ProductsView({
         </table>
         {!filtered.length && <EmptyState text="No hay productos con ese filtro." />}
       </div>
+      <TablePagination pagination={pagination} />
     </DataPanel>
   );
 }
@@ -2595,6 +2767,24 @@ function ReceiptsView({
   requestAction: RequestAction;
 }) {
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [query, setQuery] = useState("");
+  const filtered = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    return snapshot.receipts.filter((receipt) =>
+      [
+        receipt.number,
+        receipt.warehouse,
+        receipt.supplier,
+        receipt.source,
+        receipt.documentNumber,
+        receipt.status,
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(term),
+    );
+  }, [query, snapshot.receipts]);
+  const pagination = useTablePagination(filtered, query);
   const selected = snapshot.receipts.find((receipt) => receipt.id === selectedId);
 
   const removeSelected = async () => {
@@ -2620,7 +2810,7 @@ function ReceiptsView({
     <DataPanel>
       <div className="panel-summary receipt-list-summary">
         <div>
-          <strong>{snapshot.receipts.length} RECEPCIONES</strong>
+          <strong>{filtered.length} RECEPCIONES</strong>
           <span>Selecciona una fila. Al eliminarla, se revierte su ingreso de stock.</span>
         </div>
         {canDelete && (
@@ -2635,6 +2825,20 @@ function ReceiptsView({
           </div>
         )}
       </div>
+      <FilterBar>
+        <label className="wide-filter">
+          BUSCAR RECEPCIÓN
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Número, proveedor, almacén o documento"
+          />
+        </label>
+        <div className="filter-result">
+          <strong>{filtered.length}</strong>
+          <span>resultados</span>
+        </div>
+      </FilterBar>
       <div className="table-wrap receipt-list-table">
         <table>
           <thead>
@@ -2651,7 +2855,7 @@ function ReceiptsView({
             </tr>
           </thead>
           <tbody>
-            {snapshot.receipts.map((receipt) => (
+            {pagination.pageRows.map((receipt) => (
               <tr
                 key={receipt.id}
                 className={selectedId === receipt.id ? "selected-receipt-row" : ""}
@@ -2685,8 +2889,9 @@ function ReceiptsView({
             ))}
           </tbody>
         </table>
-        {!snapshot.receipts.length && <EmptyState text="Aún no hay recepciones." />}
+        {!filtered.length && <EmptyState text="Aún no hay recepciones con esos filtros." />}
       </div>
+      <TablePagination pagination={pagination} />
     </DataPanel>
   );
 }
@@ -2695,6 +2900,17 @@ function ProformasView({ snapshot }: { snapshot: Snapshot }) {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [detailId, setDetailId] = useState<number | null>(null);
   const [autoPrint, setAutoPrint] = useState(false);
+  const [query, setQuery] = useState("");
+  const filtered = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    return snapshot.proformas.filter((row) =>
+      [row.number, row.client, row.document, row.warehouse, row.status]
+        .join(" ")
+        .toLowerCase()
+        .includes(term),
+    );
+  }, [query, snapshot.proformas]);
+  const pagination = useTablePagination(filtered, query);
   const selected = snapshot.proformas.find((proforma) => proforma.id === detailId);
 
   if (selected) {
@@ -2715,7 +2931,7 @@ function ProformasView({ snapshot }: { snapshot: Snapshot }) {
     <DataPanel>
       <div className="panel-summary proforma-list-summary">
         <div>
-          <strong>{snapshot.proformas.length} PROFORMAS</strong>
+          <strong>{filtered.length} PROFORMAS</strong>
           <span>Abre una proforma para imprimirla, guardarla como PDF o exportarla a Excel.</span>
         </div>
         <div className="order-list-actions">
@@ -2734,6 +2950,20 @@ function ProformasView({ snapshot }: { snapshot: Snapshot }) {
           </button>
         </div>
       </div>
+      <FilterBar>
+        <label className="wide-filter">
+          BUSCAR PROFORMA
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Número, cliente, documento o almacén"
+          />
+        </label>
+        <div className="filter-result">
+          <strong>{filtered.length}</strong>
+          <span>resultados</span>
+        </div>
+      </FilterBar>
       <div className="table-wrap proforma-list-table">
         <table>
           <thead>
@@ -2750,7 +2980,7 @@ function ProformasView({ snapshot }: { snapshot: Snapshot }) {
             </tr>
           </thead>
           <tbody>
-            {snapshot.proformas.map((row) => (
+            {pagination.pageRows.map((row) => (
               <tr
                 key={row.id}
                 className={selectedId === row.id ? "selected-document-row" : ""}
@@ -2770,8 +3000,9 @@ function ProformasView({ snapshot }: { snapshot: Snapshot }) {
             ))}
           </tbody>
         </table>
-        {!snapshot.proformas.length && <EmptyState text="Aún no hay proformas." />}
+        {!filtered.length && <EmptyState text="Aún no hay proformas con esos filtros." />}
       </div>
+      <TablePagination pagination={pagination} />
     </DataPanel>
   );
 }
@@ -3008,6 +3239,10 @@ function OrdersView({
       );
     });
   }, [fromDate, query, status, toDate, visibleOrders]);
+  const pagination = useTablePagination(
+    rows,
+    query + "|" + status + "|" + fromDate + "|" + toDate,
+  );
 
   if (editorMode) {
     return (
@@ -3164,7 +3399,7 @@ function OrdersView({
               </tr>
             </thead>
             <tbody>
-              {rows.map((order) => (
+              {pagination.pageRows.map((order) => (
                 <tr
                   key={order.id}
                   className={selectedId === order.id ? "selected-order-row" : ""}
@@ -3188,6 +3423,7 @@ function OrdersView({
           </table>
           {!rows.length && <EmptyState text="No hay órdenes con esos filtros." />}
         </div>
+        <TablePagination pagination={pagination} />
       </DataPanel>
     </div>
   );
@@ -4020,29 +4256,56 @@ function KardexView({ snapshot }: { snapshot: Snapshot }) {
           </select>
         </label>
       </FilterBar>
-      <MovementTable rows={rows} />
+      <MovementTable rows={rows} resetKey={query + "|" + type} />
     </DataPanel>
   );
 }
 
 function CriticalView({ snapshot }: { snapshot: Snapshot }) {
-  const rows = snapshot.products.filter(isCriticalProduct);
+  const [query, setQuery] = useState("");
+  const rows = useMemo(
+    () => snapshot.products.filter(isCriticalProduct),
+    [snapshot.products],
+  );
+  const filtered = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    return rows.filter((product) =>
+      (product.code + " " + product.name + " " + product.location)
+        .toLowerCase()
+        .includes(term),
+    );
+  }, [query, rows]);
+  const pagination = useTablePagination(filtered, query);
   return (
     <DataPanel>
       <div className="critical-summary">
         <span>△</span>
         <div>
-          <strong>{rows.length} productos requieren atención</strong>
+          <strong>{filtered.length} productos requieren atención</strong>
           <p>La lista incluye productos activos con menos de 15 unidades disponibles.</p>
         </div>
       </div>
+      <FilterBar>
+        <label className="wide-filter">
+          BUSCAR PRODUCTO
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Código, descripción o ubicación"
+          />
+        </label>
+        <div className="filter-result">
+          <strong>{filtered.length}</strong>
+          <span>productos</span>
+        </div>
+      </FilterBar>
       <div className="table-wrap">
         <table>
           <thead>
             <tr><th>CÓDIGO</th><th>PRODUCTO</th><th>UBICACIÓN</th><th>FÍSICO</th><th>RESERVADO</th><th>DISPONIBLE</th><th>ESTADO</th></tr>
           </thead>
           <tbody>
-            {rows.map((product) => (
+            {pagination.pageRows.map((product) => (
               <tr key={product.id}>
                 <td className="code-cell">{product.code}</td>
                 <td className="product-cell">{product.name}</td>
@@ -4055,10 +4318,11 @@ function CriticalView({ snapshot }: { snapshot: Snapshot }) {
             ))}
           </tbody>
         </table>
-        {!rows.length && (
+        {!filtered.length && (
           <EmptyState text="No hay productos con menos de 15 unidades." />
         )}
       </div>
+      <TablePagination pagination={pagination} />
     </DataPanel>
   );
 }
@@ -4477,7 +4741,134 @@ function ReportsView({
           </div>
         </div>
       )}
-      <MovementTable rows={rows} />
+      <MovementTable rows={rows} resetKey={from + "|" + to + "|" + type + "|" + query} />
+    </DataPanel>
+  );
+}
+
+function formatAuditDetail(value: string) {
+  if (!value) return "Sin detalle adicional.";
+  try {
+    const parsed = JSON.parse(value) as Record<string, unknown>;
+    return Object.entries(parsed)
+      .map(([key, item]) => {
+        const rendered = typeof item === "string" ? item : JSON.stringify(item);
+        return key + ": " + (rendered ?? "");
+      })
+      .join(" · ");
+  } catch {
+    return value;
+  }
+}
+
+function AuditLogView({ snapshot }: { snapshot: Snapshot }) {
+  const [query, setQuery] = useState("");
+  const [moduleFilter, setModuleFilter] = useState("TODOS");
+  const modules = useMemo(
+    () =>
+      Array.from(new Set(snapshot.auditLogs.map((log) => log.module))).sort(),
+    [snapshot.auditLogs],
+  );
+  const filtered = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    return snapshot.auditLogs.filter((log) => {
+      const matchesModule =
+        moduleFilter === "TODOS" || log.module === moduleFilter;
+      const searchable = [
+        log.action,
+        log.module,
+        log.entity,
+        log.recordKey,
+        log.userEmail,
+        log.detail,
+      ]
+        .join(" ")
+        .toLowerCase();
+      return matchesModule && (!term || searchable.includes(term));
+    });
+  }, [moduleFilter, query, snapshot.auditLogs]);
+  const pagination = useTablePagination(filtered, query + "|" + moduleFilter);
+
+  return (
+    <DataPanel>
+      <div className="panel-summary audit-summary">
+        <div>
+          <strong>{filtered.length} REGISTROS DE ACTIVIDAD</strong>
+          <span>Consulta quién realizó cada operación y cuándo.</span>
+        </div>
+      </div>
+      <FilterBar>
+        <label className="wide-filter">
+          BUSCAR EN LA BITÁCORA
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Usuario, acción, documento o registro"
+          />
+        </label>
+        <label>
+          MÓDULO
+          <select
+            value={moduleFilter}
+            onChange={(event) => setModuleFilter(event.target.value)}
+          >
+            <option value="TODOS">TODOS</option>
+            {modules.map((module) => (
+              <option key={module} value={module}>{module}</option>
+            ))}
+          </select>
+        </label>
+        <div className="filter-result">
+          <strong>{filtered.length}</strong>
+          <span>registros</span>
+        </div>
+      </FilterBar>
+      <div className="table-wrap audit-log-table">
+        <table>
+          <thead>
+            <tr>
+              <th>FECHA / HORA</th>
+              <th>ACCIÓN</th>
+              <th>MÓDULO</th>
+              <th>ELEMENTO</th>
+              <th>REGISTRO</th>
+              <th>USUARIO</th>
+              <th>DETALLE</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pagination.pageRows.map((log) => (
+              <tr key={log.id}>
+                <td className="date-time-cell">{dateTime(log.occurredAt)}</td>
+                <td>
+                  <span
+                    className={
+                      "audit-action audit-" +
+                      log.action.toLowerCase().replaceAll("_", "-")
+                    }
+                  >
+                    {log.action.replaceAll("_", " ")}
+                  </span>
+                </td>
+                <td>{log.module}</td>
+                <td>{log.entity || "—"}</td>
+                <td className="code-cell">{log.recordKey || "—"}</td>
+                <td>{log.userEmail || "—"}</td>
+                <td>
+                  <details className="audit-detail">
+                    <summary>VER</summary>
+                    <pre>{formatAuditDetail(log.detail)}</pre>
+                  </details>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {!filtered.length && (
+          <EmptyState text="No hay registros con esos filtros." />
+        )}
+      </div>
+      <TablePagination pagination={pagination} />
     </DataPanel>
   );
 }
@@ -4609,7 +5000,14 @@ function BackupsView({
   );
 }
 
-function StockTable({ rows }: { rows: StockRow[] }) {
+function StockTable({
+  rows,
+  resetKey = "",
+}: {
+  rows: StockRow[];
+  resetKey?: string;
+}) {
+  const pagination = useTablePagination(rows, resetKey || String(rows.length));
   return (
     <div className="table-wrap">
       <table>
@@ -4619,7 +5017,7 @@ function StockTable({ rows }: { rows: StockRow[] }) {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
+          {pagination.pageRows.map((row) => (
             <tr key={row.id}>
               <td className="code-cell">{row.code}</td>
               <td className="product-cell">{row.name}</td>
@@ -4634,11 +5032,19 @@ function StockTable({ rows }: { rows: StockRow[] }) {
         </tbody>
       </table>
       {!rows.length && <EmptyState text="No hay inventario para mostrar." />}
+      <TablePagination pagination={pagination} />
     </div>
   );
 }
 
-function MovementTable({ rows }: { rows: Snapshot["movements"] }) {
+function MovementTable({
+  rows,
+  resetKey = "",
+}: {
+  rows: Snapshot["movements"];
+  resetKey?: string;
+}) {
+  const pagination = useTablePagination(rows, resetKey || String(rows.length));
   return (
     <div className="table-wrap">
       <table>
@@ -4646,7 +5052,7 @@ function MovementTable({ rows }: { rows: Snapshot["movements"] }) {
           <tr><th>FECHA / HORA</th><th>MOVIMIENTO</th><th>DOCUMENTO</th><th>CÓDIGO</th><th>PRODUCTO</th><th>CANTIDAD</th><th>ALMACÉN</th></tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
+          {pagination.pageRows.map((row) => (
             <tr key={row.id}>
               <td className="date-time-cell">{dateTime(row.date)}</td>
               <td><span className={"movement-badge " + row.type.toLowerCase()}>{row.type.replaceAll("_", " ")}</span></td>
@@ -4660,6 +5066,7 @@ function MovementTable({ rows }: { rows: Snapshot["movements"] }) {
         </tbody>
       </table>
       {!rows.length && <EmptyState text="No hay movimientos con esos filtros." />}
+      <TablePagination pagination={pagination} />
     </div>
   );
 }
