@@ -970,3 +970,207 @@
     display: none;
   }
 }
+
+
+/* Plantillas de impresión: A4 para documentos y 80 mm para tickets. */
+@page a4-page {
+  size: A4 portrait;
+  margin: 10mm 12mm;
+}
+
+@page ticket-page {
+  size: 80mm auto;
+  margin: 4mm 3mm;
+}
+
+@media print {
+  /* La salida A4 muestra un solo documento, sin el ticket auxiliar. */
+  body:not([data-print-mode="ticket"]) .print-document.print-ticket {
+    display: none !important;
+  }
+
+  body:not([data-print-mode="ticket"]) .print-document.print-proforma,
+  body:not([data-print-mode="ticket"]) .print-document.print-order {
+    display: block !important;
+    page: a4-page;
+  }
+
+  /* El ticket usa una página térmica independiente de 80 mm. */
+  body[data-print-mode="ticket"] .print-document.print-proforma,
+  body[data-print-mode="ticket"] .print-document.print-order {
+    display: none !important;
+  }
+
+  body[data-print-mode="ticket"] .print-document.print-ticket {
+    display: block !important;
+    page: ticket-page;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #111 !important;
+    background: #fff !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+  }
+
+  .app-shell .print-document.print-ticket,
+  .app-shell .print-document.print-ticket * {
+    box-sizing: border-box;
+  }
+
+  .app-shell .ticket-brand {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .app-shell .ticket-brand img {
+    width: 42px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .app-shell .ticket-brand strong {
+    color: #173f6d;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+  }
+
+  .app-shell .ticket-brand span {
+    color: #333;
+    font-size: 8px;
+  }
+
+  .app-shell .ticket-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 0;
+    border-top: 1px dashed #222;
+    border-bottom: 1px dashed #222;
+    font-size: 10px;
+  }
+
+  .app-shell .ticket-heading b {
+    font-size: 9px;
+  }
+
+  .app-shell .ticket-meta {
+    display: grid;
+    gap: 3px;
+    margin: 8px 0;
+  }
+
+  .app-shell .ticket-meta div {
+    display: flex;
+    justify-content: space-between;
+    gap: 7px;
+  }
+
+  .app-shell .ticket-meta dt {
+    color: #555;
+    font-size: 8px;
+    font-weight: 700;
+  }
+
+  .app-shell .ticket-meta dd {
+    max-width: 68%;
+    margin: 0;
+    color: #111;
+    font-size: 8px;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  .app-shell .ticket-lines {
+    border-top: 1px solid #222;
+  }
+
+  .app-shell .ticket-line {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 5px 0;
+    border-bottom: 1px dashed #999;
+  }
+
+  .app-shell .ticket-line > div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .app-shell .ticket-line strong {
+    font-size: 8px;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .app-shell .ticket-line small {
+    color: #555;
+    font-size: 7px;
+  }
+
+  .app-shell .ticket-line > b {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .app-shell .ticket-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 0;
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  .app-shell .ticket-total strong {
+    font-size: 13px;
+  }
+
+  .app-shell .ticket-note {
+    margin: 0 0 7px;
+    padding-top: 5px;
+    border-top: 1px dashed #999;
+    color: #333;
+    font-size: 7px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .app-shell .ticket-footer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 6px;
+    border-top: 1px dashed #222;
+    color: #555;
+    font-size: 7px;
+    text-align: center;
+  }
+
+  /* Compacta también la franja de acciones en pantalla. */
+  .app-shell .order-detail-toolbar > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+@media print {
+  .app-shell .dashboard-alerts,
+  .app-shell .table-pagination {
+    display: none;
+  }
+}
