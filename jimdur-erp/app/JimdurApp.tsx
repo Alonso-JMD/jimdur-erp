@@ -751,6 +751,7 @@ const DEMO_SNAPSHOT: Snapshot = {
     },
   ],
   imports: [],
+  auditLogs: [],
   generatedAt: new Date().toISOString(),
 };
 
