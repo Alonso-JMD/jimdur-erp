@@ -4451,7 +4451,7 @@ function WarehousesView({
         .sort(
           (first, second) =>
             new Date(second.date).getTime() - new Date(first.date).getTime(),
-        )
+        ),
     [effectiveWarehouseId, snapshot.movements],
   );
   const totalAvailable = activeWarehouses.reduce((total, warehouse) => total + warehouse.available, 0);
