@@ -1241,3 +1241,18 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* LISTADOS COMPLETOS EN DESPLAZAMIENTO VERTICAL */
+.app-shell .receipt-list-table,
+.app-shell .order-list-table,
+.app-shell .warehouse-table-scroll,
+.app-shell .warehouse-list {
+  max-height: none;
+}
+
+.app-shell .table-wrap tbody tr,
+.app-shell .warehouse-list-item {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 48px;
+}
