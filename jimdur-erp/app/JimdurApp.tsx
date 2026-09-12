@@ -2329,7 +2329,6 @@ function renderModule(
           snapshot={snapshot}
           runOperation={context.runOperation}
           requestAction={context.requestAction}
-          onNavigate={context.openModule}
           onEdit={(warehouse) => {
             context.setEditingWarehouse(warehouse);
             context.setModal("warehouse");
@@ -2651,103 +2650,6 @@ function Metric({
 }
 
 
-const TABLE_PAGE_SIZES = [10, 25, 50] as const;
-
-type TablePaginationProps = {
-  page: number;
-  pageSize: number;
-  totalPages: number;
-  totalRows: number;
-  start: number;
-  end: number;
-  onPageChange: (page: number) => void;
-  onPageSizeChange: (pageSize: number) => void;
-};
-
-type TablePaginationState<T> = TablePaginationProps & {
-  pageRows: T[];
-};
-
-function useTablePagination<T>(
-  rows: T[],
-  resetKey = "",
-): TablePaginationState<T> {
-  const [pageState, setPageState] = useState({ page: 1, resetKey });
-  const [pageSize, setPageSize] = useState(10);
-  const totalRows = rows.length;
-  const totalPages = Math.max(1, Math.ceil(totalRows / pageSize));
-  const page = pageState.resetKey === resetKey ? pageState.page : 1;
-  const safePage = Math.min(page, totalPages);
-  const startIndex = (safePage - 1) * pageSize;
-
-  return {
-    pageRows: rows.slice(startIndex, startIndex + pageSize),
-    page: safePage,
-    pageSize,
-    totalPages,
-    totalRows,
-    start: totalRows ? startIndex + 1 : 0,
-    end: Math.min(startIndex + pageSize, totalRows),
-    onPageChange: (nextPage) => {
-      setPageState({ page: nextPage, resetKey });
-    },
-    onPageSizeChange: (nextPageSize) => {
-      setPageSize(nextPageSize);
-      setPageState({ page: 1, resetKey });
-    },
-  };
-}
-
-function TablePagination({
-  pagination,
-}: {
-  pagination: TablePaginationProps;
-}) {
-  if (!pagination.totalRows) return null;
-
-  return (
-    <div className="table-pagination" aria-label="Paginación de resultados">
-      <span>
-        Mostrando {pagination.start}–{pagination.end} de {pagination.totalRows}
-      </span>
-      <div className="table-pagination-controls">
-        <label>
-          <span>Filas</span>
-          <select
-            aria-label="Filas por página"
-            value={pagination.pageSize}
-            onChange={(event) =>
-              pagination.onPageSizeChange(Number(event.target.value))
-            }
-          >
-            {TABLE_PAGE_SIZES.map((size) => (
-              <option key={size} value={size}>{size}</option>
-            ))}
-          </select>
-        </label>
-        <button
-          type="button"
-          aria-label="Página anterior"
-          disabled={pagination.page <= 1}
-          onClick={() => pagination.onPageChange(pagination.page - 1)}
-        >
-          ‹
-        </button>
-        <strong>
-          Página {pagination.page} de {pagination.totalPages}
-        </strong>
-        <button
-          type="button"
-          aria-label="Página siguiente"
-          disabled={pagination.page >= pagination.totalPages}
-          onClick={() => pagination.onPageChange(pagination.page + 1)}
-        >
-          ›
-        </button>
-      </div>
-    </div>
-  );
-}
 
 function InventoryView({ snapshot }: { snapshot: Snapshot }) {
   const [query, setQuery] = useState("");
@@ -2794,7 +2696,7 @@ function InventoryView({ snapshot }: { snapshot: Snapshot }) {
           <span>productos con stock</span>
         </div>
       </FilterBar>
-      <StockTable rows={filtered} resetKey={query + "|" + warehouseId} />
+      <StockTable rows={filtered} />
     </DataPanel>
   );
 }
@@ -2816,7 +2718,6 @@ function ProductsView({
       ),
     [query, snapshot.products],
   );
-  const pagination = useTablePagination(filtered, query);
   return (
     <DataPanel>
       <FilterBar>
@@ -2848,7 +2749,7 @@ function ProductsView({
             </tr>
           </thead>
           <tbody>
-            {pagination.pageRows.map((product) => (
+            {filtered.map((product) => (
               <tr key={product.id} onDoubleClick={() => onEdit(product)}>
                 <td className="code-cell">{product.code}</td>
                 <td className="product-cell">{product.name}</td>
@@ -2870,7 +2771,6 @@ function ProductsView({
         </table>
         {!filtered.length && <EmptyState text="No hay productos con ese filtro." />}
       </div>
-      <TablePagination pagination={pagination} />
     </DataPanel>
   );
 }
@@ -2904,7 +2804,6 @@ function ReceiptsView({
         .includes(term),
     );
   }, [query, snapshot.receipts]);
-  const pagination = useTablePagination(filtered, query);
   const selected = snapshot.receipts.find((receipt) => receipt.id === selectedId);
 
   const removeSelected = async () => {
@@ -2975,7 +2874,7 @@ function ReceiptsView({
             </tr>
           </thead>
           <tbody>
-            {pagination.pageRows.map((receipt) => (
+            {filtered.map((receipt) => (
               <tr
                 key={receipt.id}
                 className={selectedId === receipt.id ? "selected-receipt-row" : ""}
@@ -3011,7 +2910,6 @@ function ReceiptsView({
         </table>
         {!filtered.length && <EmptyState text="Aún no hay recepciones con esos filtros." />}
       </div>
-      <TablePagination pagination={pagination} />
     </DataPanel>
   );
 }
@@ -3030,7 +2928,6 @@ function ProformasView({ snapshot }: { snapshot: Snapshot }) {
         .includes(term),
     );
   }, [query, snapshot.proformas]);
-  const pagination = useTablePagination(filtered, query);
   const selected = snapshot.proformas.find((proforma) => proforma.id === detailId);
 
   if (selected) {
@@ -3100,7 +2997,7 @@ function ProformasView({ snapshot }: { snapshot: Snapshot }) {
             </tr>
           </thead>
           <tbody>
-            {pagination.pageRows.map((row) => (
+            {filtered.map((row) => (
               <tr
                 key={row.id}
                 className={selectedId === row.id ? "selected-document-row" : ""}
@@ -3122,7 +3019,6 @@ function ProformasView({ snapshot }: { snapshot: Snapshot }) {
         </table>
         {!filtered.length && <EmptyState text="Aún no hay proformas con esos filtros." />}
       </div>
-      <TablePagination pagination={pagination} />
     </DataPanel>
   );
 }
@@ -3359,10 +3255,6 @@ function OrdersView({
       );
     });
   }, [fromDate, query, status, toDate, visibleOrders]);
-  const pagination = useTablePagination(
-    rows,
-    query + "|" + status + "|" + fromDate + "|" + toDate,
-  );
 
   if (editorMode) {
     return (
@@ -3519,7 +3411,7 @@ function OrdersView({
               </tr>
             </thead>
             <tbody>
-              {pagination.pageRows.map((order) => (
+              {rows.map((order) => (
                 <tr
                   key={order.id}
                   className={selectedId === order.id ? "selected-order-row" : ""}
@@ -3543,7 +3435,6 @@ function OrdersView({
           </table>
           {!rows.length && <EmptyState text="No hay órdenes con esos filtros." />}
         </div>
-        <TablePagination pagination={pagination} />
       </DataPanel>
     </div>
   );
@@ -4442,7 +4333,7 @@ function KardexView({ snapshot }: { snapshot: Snapshot }) {
           </select>
         </label>
       </FilterBar>
-      <MovementTable rows={rows} resetKey={query + "|" + type} />
+      <MovementTable rows={rows} />
     </DataPanel>
   );
 }
@@ -4461,7 +4352,6 @@ function CriticalView({ snapshot }: { snapshot: Snapshot }) {
         .includes(term),
     );
   }, [query, rows]);
-  const pagination = useTablePagination(filtered, query);
   return (
     <DataPanel>
       <div className="critical-summary">
@@ -4491,7 +4381,7 @@ function CriticalView({ snapshot }: { snapshot: Snapshot }) {
             <tr><th>CÓDIGO</th><th>PRODUCTO</th><th>UBICACIÓN</th><th>FÍSICO</th><th>RESERVADO</th><th>DISPONIBLE</th><th>ESTADO</th></tr>
           </thead>
           <tbody>
-            {pagination.pageRows.map((product) => (
+            {filtered.map((product) => (
               <tr key={product.id}>
                 <td className="code-cell">{product.code}</td>
                 <td className="product-cell">{product.name}</td>
@@ -4508,7 +4398,6 @@ function CriticalView({ snapshot }: { snapshot: Snapshot }) {
           <EmptyState text="No hay productos con menos de 15 unidades." />
         )}
       </div>
-      <TablePagination pagination={pagination} />
     </DataPanel>
   );
 }
@@ -4518,13 +4407,11 @@ function WarehousesView({
   runOperation,
   requestAction,
   onEdit,
-  onNavigate,
 }: {
   snapshot: Snapshot;
   runOperation: RunOperation;
   requestAction: RequestAction;
   onEdit: (warehouse: Warehouse) => void;
-  onNavigate: (key: ModuleKey) => void;
 }) {
   const [selectedWarehouseId, setSelectedWarehouseId] = useState<number | null>(null);
   const [showInactive, setShowInactive] = useState(false);
@@ -4565,7 +4452,6 @@ function WarehousesView({
           (first, second) =>
             new Date(second.date).getTime() - new Date(first.date).getTime(),
         )
-        .slice(0, 12),
     [effectiveWarehouseId, snapshot.movements],
   );
   const totalAvailable = activeWarehouses.reduce((total, warehouse) => total + warehouse.available, 0);
@@ -4749,40 +4635,11 @@ function WarehousesView({
                       </article>
                     </div>
 
-                    <div className="warehouse-quick-actions">
-                      <div className="warehouse-quick-actions-copy">
-                        <span className="eyebrow">ACCESOS RÁPIDOS</span>
-                        <h3>¿Qué deseas gestionar?</h3>
-                        <p>Consulta los productos en Inventario y usa estas opciones para operar el almacén.</p>
-                      </div>
-                      <div className="warehouse-quick-action-buttons">
-                        <button type="button" onClick={() => onNavigate("inventory")}>
-                          <AppIcon name="inventory" size={16} />
-                          <span><strong>Ver inventario</strong><small>Productos y saldos detallados</small></span>
-                          <b>→</b>
-                        </button>
-                        <button type="button" onClick={() => onNavigate("transfers")}>
-                          <AppIcon name="transfer" size={16} />
-                          <span><strong>Transferir existencias</strong><small>Mover entre almacenes</small></span>
-                          <b>→</b>
-                        </button>
-                        <button type="button" onClick={() => onNavigate("adjustments")}>
-                          <AppIcon name="adjust" size={16} />
-                          <span><strong>Registrar ajuste</strong><small>Corregir diferencias físicas</small></span>
-                          <b>→</b>
-                        </button>
-                      </div>
-                    </div>
 
-                    <div className="warehouse-info-note">
-                      <AppIcon name="kardex" size={16} />
-                      <span>Los movimientos y la trazabilidad se conservan en el Kardex de este almacén.</span>
-                      <button type="button" onClick={() => onNavigate("kardex")}>Abrir Kardex</button>
-                    </div>
                   </div>
                 ) : (
                   <div className="warehouse-detail-section">
-                    <div className="warehouse-section-heading"><div><h3>Movimientos recientes</h3><span>Últimos {selectedMovements.length} movimientos registrados</span></div><button type="button" className="warehouse-inline-link" onClick={() => onNavigate("kardex")}>Abrir Kardex →</button></div>
+                    <div className="warehouse-section-heading"><div><h3>Movimientos recientes</h3><span>Últimos {selectedMovements.length} movimientos registrados</span></div></div>
                     <div className="table-wrap warehouse-table-scroll">
                       <table>
                         <thead><tr><th>FECHA</th><th>DOCUMENTO</th><th>PRODUCTO</th><th>TIPO</th><th>CANTIDAD</th><th>RESPONSABLE</th></tr></thead>
@@ -4927,7 +4784,7 @@ function ReportsView({
           </div>
         </div>
       )}
-      <MovementTable rows={rows} resetKey={from + "|" + to + "|" + type + "|" + query} />
+      <MovementTable rows={rows} />
     </DataPanel>
   );
 }
@@ -4973,7 +4830,6 @@ function AuditLogView({ snapshot }: { snapshot: Snapshot }) {
       return matchesModule && (!term || searchable.includes(term));
     });
   }, [moduleFilter, query, snapshot.auditLogs]);
-  const pagination = useTablePagination(filtered, query + "|" + moduleFilter);
 
   return (
     <DataPanel>
@@ -5023,7 +4879,7 @@ function AuditLogView({ snapshot }: { snapshot: Snapshot }) {
             </tr>
           </thead>
           <tbody>
-            {pagination.pageRows.map((log) => (
+            {filtered.map((log) => (
               <tr key={log.id}>
                 <td className="date-time-cell">{dateTime(log.occurredAt)}</td>
                 <td>
@@ -5054,7 +4910,6 @@ function AuditLogView({ snapshot }: { snapshot: Snapshot }) {
           <EmptyState text="No hay registros con esos filtros." />
         )}
       </div>
-      <TablePagination pagination={pagination} />
     </DataPanel>
   );
 }
@@ -5188,12 +5043,9 @@ function BackupsView({
 
 function StockTable({
   rows,
-  resetKey = "",
 }: {
   rows: StockRow[];
-  resetKey?: string;
 }) {
-  const pagination = useTablePagination(rows, resetKey || String(rows.length));
   return (
     <div className="table-wrap">
       <table>
@@ -5203,7 +5055,7 @@ function StockTable({
           </tr>
         </thead>
         <tbody>
-          {pagination.pageRows.map((row) => (
+          {rows.map((row) => (
             <tr key={row.id}>
               <td className="code-cell">{row.code}</td>
               <td className="product-cell">{row.name}</td>
@@ -5218,19 +5070,15 @@ function StockTable({
         </tbody>
       </table>
       {!rows.length && <EmptyState text="No hay inventario para mostrar." />}
-      <TablePagination pagination={pagination} />
     </div>
   );
 }
 
 function MovementTable({
   rows,
-  resetKey = "",
 }: {
   rows: Snapshot["movements"];
-  resetKey?: string;
 }) {
-  const pagination = useTablePagination(rows, resetKey || String(rows.length));
   return (
     <div className="table-wrap">
       <table>
@@ -5238,7 +5086,7 @@ function MovementTable({
           <tr><th>FECHA / HORA</th><th>MOVIMIENTO</th><th>DOCUMENTO</th><th>CÓDIGO</th><th>PRODUCTO</th><th>CANTIDAD</th><th>ALMACÉN</th></tr>
         </thead>
         <tbody>
-          {pagination.pageRows.map((row) => (
+          {rows.map((row) => (
             <tr key={row.id}>
               <td className="date-time-cell">{dateTime(row.date)}</td>
               <td><span className={"movement-badge " + row.type.toLowerCase()}>{row.type.replaceAll("_", " ")}</span></td>
@@ -5252,7 +5100,6 @@ function MovementTable({
         </tbody>
       </table>
       {!rows.length && <EmptyState text="No hay movimientos con esos filtros." />}
-      <TablePagination pagination={pagination} />
     </div>
   );
 }
