@@ -89,11 +89,23 @@ type ModalKind =
   | "user"
   | "password"
   | "import"
+  | "product-import"
   | null;
 
 type RunOperation = (
   payload: Record<string, unknown>,
 ) => Promise<{ ok: boolean; data?: Record<string, unknown> }>;
+
+type ProductImportRow = {
+  code: string;
+  name: string;
+};
+
+type ProductImportState = {
+  rows: ProductImportRow[];
+  invalidRows: string[];
+  fileName: string;
+};
 
 type ActionDialogResult = true | string | null;
 
@@ -1076,6 +1088,73 @@ async function downloadXlsx(
   XLSX.writeFile(workbook, name);
 }
 
+
+function normalizeImportHeader(value: unknown) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toUpperCase();
+}
+
+async function parseProductWorkbook(file: File): Promise<ProductImportState> {
+  const XLSX = await import("xlsx");
+  const workbook = XLSX.read(await file.arrayBuffer(), { type: "array" });
+  const sheetName = workbook.SheetNames[0];
+  if (!sheetName) throw new Error("El archivo no contiene hojas.");
+
+  const sheet = workbook.Sheets[sheetName];
+  const rows = XLSX.utils.sheet_to_json<unknown[]>(sheet, {
+    header: 1,
+    defval: "",
+    raw: false,
+  });
+  const headerIndex = rows.findIndex((row) => {
+    const headers = Array.isArray(row) ? row.map(normalizeImportHeader) : [];
+    return headers.includes("CODIGO") && headers.includes("PRODUCTO");
+  });
+  if (headerIndex < 0) {
+    throw new Error("No se encontraron las columnas CODIGO y PRODUCTO.");
+  }
+
+  const header = rows[headerIndex].map(normalizeImportHeader);
+  const codeIndex = header.indexOf("CODIGO");
+  const nameIndex = header.indexOf("PRODUCTO");
+  const seenCodes = new Set<string>();
+  const validRows: ProductImportRow[] = [];
+  const invalidRows: string[] = [];
+
+  rows.slice(headerIndex + 1).forEach((row, index) => {
+    const cells = Array.isArray(row) ? row : [];
+    const code = String(cells[codeIndex] ?? "").trim().toUpperCase();
+    const name = String(cells[nameIndex] ?? "").trim().toUpperCase();
+    if (!code && !name) return;
+
+    const excelRow = headerIndex + index + 2;
+    if (!code || !name) {
+      invalidRows.push("fila " + excelRow + ": falta código o producto");
+      return;
+    }
+    if (!/^[A-Z0-9._/-]+$/.test(code)) {
+      invalidRows.push("fila " + excelRow + ": código no válido");
+      return;
+    }
+    if (seenCodes.has(code)) {
+      invalidRows.push("fila " + excelRow + ": código duplicado " + code);
+      return;
+    }
+
+    seenCodes.add(code);
+    validRows.push({ code, name });
+  });
+
+  return {
+    rows: validRows,
+    invalidRows,
+    fileName: file.name,
+  };
+}
+
 function hasPermission(snapshot: Snapshot, key?: string) {
   if (!key) return true;
   return (
@@ -1975,6 +2054,15 @@ export default function JimdurApp() {
         />
       )}
 
+      {modal === "product-import" && (
+        <ProductImportModal
+          busy={busy}
+          runOperation={runOperation}
+          requestAction={requestAction}
+          onClose={() => setModal(null)}
+        />
+      )}
+
       {actionDialog && (
         <ActionDialog
           dialog={actionDialog}
@@ -2037,6 +2125,11 @@ function toolbarActions(
     onClick: () => void;
   }> = [];
   if (active === "products") {
+    actions.push({
+      label: "IMPORTAR EXCEL",
+      icon: "upload",
+      onClick: () => setModal("product-import"),
+    });
     actions.push({
       label: "NUEVO PRODUCTO",
       icon: "plus",
@@ -5371,6 +5464,162 @@ function ProductModal({
           {product && <label>ESTADO<select value={form.active ? "ACTIVO" : "INACTIVO"} onChange={(event) => field("active", event.target.value === "ACTIVO")}><option>ACTIVO</option><option>INACTIVO</option></select></label>}
         </div>
         <ModalFooter busy={busy} onClose={onClose} label="GUARDAR PRODUCTO" />
+      </form>
+    </Modal>
+  );
+}
+
+
+function ProductImportModal({
+  busy,
+  runOperation,
+  requestAction,
+  onClose,
+}: {
+  busy: boolean;
+  runOperation: RunOperation;
+  requestAction: RequestAction;
+  onClose: () => void;
+}) {
+  const [state, setState] = useState<ProductImportState>({
+    rows: [],
+    invalidRows: [],
+    fileName: "",
+  });
+  const [parseBusy, setParseBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  const selectFile = async (event: { currentTarget: HTMLInputElement }) => {
+    const file = event.currentTarget.files?.[0];
+    setError("");
+    setState({ rows: [], invalidRows: [], fileName: file?.name || "" });
+    if (!file) return;
+    if (file.size > 25 * 1024 * 1024) {
+      setError("El archivo supera 25 MB.");
+      return;
+    }
+
+    setParseBusy(true);
+    try {
+      const parsed = await parseProductWorkbook(file);
+      setState(parsed);
+      if (parsed.invalidRows.length) {
+        setError(
+          "Corrige las filas observadas antes de actualizar el catálogo.",
+        );
+      }
+    } catch (caught) {
+      setError(
+        caught instanceof Error
+          ? caught.message
+          : "No se pudo leer el archivo de productos.",
+      );
+    } finally {
+      setParseBusy(false);
+    }
+  };
+
+  const submit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (
+      parseBusy ||
+      busy ||
+      !state.rows.length ||
+      state.invalidRows.length ||
+      error
+    ) {
+      return;
+    }
+
+    const confirmed = await requestAction({
+      title: "Actualizar catálogo",
+      message:
+        "Se procesarán " +
+        state.rows.length +
+        " productos. Los existentes se actualizarán por código y los nuevos se crearán. El stock y los movimientos no se modificarán.",
+      confirmLabel: "ACTUALIZAR CATÁLOGO",
+    });
+    if (confirmed !== true) return;
+
+    await runOperation({
+      action: "import_products",
+      rows: state.rows,
+    });
+  };
+
+  return (
+    <Modal
+      title="Importar catálogo de productos"
+      eyebrow="ACTUALIZACIÓN CONTROLADA"
+      description="Carga un Excel para crear productos nuevos y actualizar nombres por código."
+      onClose={onClose}
+    >
+      <form onSubmit={(event) => void submit(event)}>
+        <label className="file-drop product-import-file">
+          <input
+            type="file"
+            accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv"
+            onChange={(event) => void selectFile(event)}
+          />
+          <span>⇧</span>
+          <strong>{state.fileName || "SELECCIONAR PRODUCTOS.xlsx"}</strong>
+          <small>Columnas requeridas: CÓDIGO y PRODUCTO</small>
+        </label>
+
+        {parseBusy && (
+          <div className="file-ok">Leyendo el archivo…</div>
+        )}
+        {state.fileName && !parseBusy && !error && (
+          <div className="file-ok">✓ Archivo validado y listo para revisar.</div>
+        )}
+        {error && <div className="form-error">{error}</div>}
+
+        {state.fileName && !parseBusy && (
+          <div className="product-import-summary">
+            <div>
+              <strong>{state.rows.length}</strong>
+              <span>filas válidas</span>
+            </div>
+            <div>
+              <strong>{state.invalidRows.length}</strong>
+              <span>filas con error</span>
+            </div>
+            <div>
+              <strong>{state.rows.length + state.invalidRows.length}</strong>
+              <span>filas leídas</span>
+            </div>
+          </div>
+        )}
+
+        {!!state.invalidRows.length && (
+          <div className="product-import-errors">
+            <strong>Revisa estas filas:</strong>
+            <ul>
+              {state.invalidRows.slice(0, 6).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            {state.invalidRows.length > 6 && (
+              <small>Hay más filas con error. Corrige el archivo y vuelve a cargarlo.</small>
+            )}
+          </div>
+        )}
+
+        <div className="import-note">
+          <strong>Qué se actualizará</strong>
+          <span>
+            Se usa el CÓDIGO como clave. Se crean los faltantes y se actualiza el
+            nombre de los existentes; stock, almacenes y movimientos quedan intactos.
+          </span>
+        </div>
+        <ModalFooter
+          busy={busy || parseBusy}
+          onClose={onClose}
+          label="ACTUALIZAR CATÁLOGO"
+          disabled={
+            !state.rows.length || !!state.invalidRows.length || !!error
+          }
+        />
       </form>
     </Modal>
   );
