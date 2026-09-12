@@ -2465,6 +2465,7 @@ function DashboardView({
     : 100;
   const today = todayInputValue();
   const todayMovements = snapshot.movements.filter((movement) => movementDay(movement.date) === today).length;
+  const totalAlerts = critical + pendingOrders + pendingReceipts;
   const orderProgress = snapshot.orders.length
     ? Math.round((completedOrders / snapshot.orders.length) * 100)
     : 100;
@@ -2520,8 +2521,24 @@ function DashboardView({
         <Metric tone="cobalt" label="ENTRADAS" value={n(entries.reduce((sum, movement) => sum + movement.quantity, 0))} note={`${entries.length} movimientos registrados`} icon="receive" onClick={() => onNavigate("kardex")} />
         <Metric tone="amber" label="SALIDAS" value={n(exits.reduce((sum, movement) => sum + movement.quantity, 0))} note={`${exits.length} movimientos registrados`} icon="dispatch" onClick={() => onNavigate("kardex")} />
       </section>
-      <section className="dashboard-alerts" aria-label="Alertas operativas">
-        <button
+      <section className="dashboard-alerts-panel" aria-labelledby="dashboard-alerts-title">
+        <div className="dashboard-alerts-heading">
+          <div>
+            <span className="eyebrow">CENTRO DE ATENCIÓN</span>
+            <h3 id="dashboard-alerts-title">Prioridades operativas</h3>
+            <p>Revisa primero lo que requiere atención en tu operación.</p>
+          </div>
+          <span
+            className={"dashboard-alerts-status " + (totalAlerts ? "attention" : "healthy")}
+            aria-live="polite"
+          >
+            <AppIcon name={totalAlerts ? "alert" : "check"} size={12} />
+            {totalAlerts ? `${totalAlerts} pendientes` : "Operación controlada"}
+          </span>
+        </div>
+        <div className="dashboard-alerts" aria-label="Alertas operativas">
+          <button
+            type="button"
           className={"dashboard-alert " + (critical ? "danger" : "healthy")}
           onClick={() => onNavigate("critical")}
         >
@@ -2533,7 +2550,8 @@ function DashboardView({
           </span>
           <b className="dashboard-alert-arrow">→</b>
         </button>
-        <button
+          <button
+            type="button"
           className={"dashboard-alert " + (pendingOrders ? "warning" : "healthy")}
           onClick={() => onNavigate("orders")}
         >
@@ -2545,7 +2563,8 @@ function DashboardView({
           </span>
           <b className="dashboard-alert-arrow">→</b>
         </button>
-        <button
+          <button
+            type="button"
           className={"dashboard-alert " + (pendingReceipts ? "warning" : "healthy")}
           onClick={() => onNavigate("receipts")}
         >
@@ -2557,7 +2576,8 @@ function DashboardView({
           </span>
           <b className="dashboard-alert-arrow">→</b>
         </button>
-        <button
+          <button
+            type="button"
           className={"dashboard-alert " + (todayMovements ? "info" : "warning")}
           onClick={() => onNavigate("kardex")}
         >
@@ -2569,6 +2589,8 @@ function DashboardView({
           </span>
           <b className="dashboard-alert-arrow">→</b>
         </button>
+
+        </div>
       </section>
       <section className="executive-chart-grid">
         <DashboardLineChart title="Movimientos de inventario" subtitle="Entradas y salidas · últimos 30 días" rows={movementDays} />
