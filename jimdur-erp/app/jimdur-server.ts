@@ -1215,6 +1215,109 @@ async function updateProduct(user: AppUser, payload: DbRow) {
   return { message: "Producto actualizado correctamente." };
 }
 
+
+async function importProducts(user: AppUser, payload: DbRow) {
+  const rawRows = Array.isArray(payload.rows) ? payload.rows : [];
+  if (!rawRows.length) {
+    throw new HttpError(400, "El archivo no contiene productos válidos.");
+  }
+  if (rawRows.length > 5000) {
+    throw new HttpError(400, "La importación está limitada a 5,000 productos por archivo.");
+  }
+
+  const rows: Array<{ code: string; name: string }> = [];
+  const seenCodes = new Set<string>();
+  const errors: string[] = [];
+
+  rawRows.forEach((item, index) => {
+    const row = (item ?? {}) as DbRow;
+    const code = asText(row.code).toUpperCase();
+    const name = asText(row.name).toUpperCase();
+    const rowNumber = index + 1;
+
+    if (!code || !name) {
+      errors.push("fila " + rowNumber + ": falta código o producto");
+      return;
+    }
+    if (code.length > 120 || !/^[A-Z0-9._/-]+$/.test(code)) {
+      errors.push("fila " + rowNumber + ": código no válido");
+      return;
+    }
+    if (name.length > 500) {
+      errors.push("fila " + rowNumber + ": nombre demasiado largo");
+      return;
+    }
+    if (seenCodes.has(code)) {
+      errors.push("fila " + rowNumber + ": código duplicado " + code);
+      return;
+    }
+
+    seenCodes.add(code);
+    rows.push({ code, name });
+  });
+
+  if (errors.length) {
+    const detail = errors.slice(0, 8).join("; ");
+    const suffix = errors.length > 8 ? " (y " + (errors.length - 8) + " errores más)." : ".";
+    throw new HttpError(400, "No se pudo validar el catálogo: " + detail + suffix);
+  }
+  if (!rows.length) {
+    throw new HttpError(400, "El archivo no contiene productos válidos.");
+  }
+
+  const codes = rows.map((row) => row.code);
+  const existingRows = await allRows<{ code: string }>(
+    "SELECT code FROM products WHERE code IN (" +
+      codes.map(() => "?").join(",") +
+      ")",
+    codes,
+  );
+  const existingCodes = new Set(
+    existingRows.map((row) => asText(row.code).toUpperCase()),
+  );
+  const values: BoundValue[] = [];
+  const placeholders = rows
+    .map((row) => {
+      values.push(row.code, row.name);
+      return "(?,?,'UND',1)";
+    })
+    .join(",");
+
+  await run(
+    "INSERT INTO products (code,name,unit,active) VALUES " +
+      placeholders +
+      " ON CONFLICT (code) DO UPDATE SET name=EXCLUDED.name,updated_at=CURRENT_TIMESTAMP",
+    values,
+  );
+
+  const created = rows.filter((row) => !existingCodes.has(row.code)).length;
+  const updated = rows.length - created;
+  const summary = {
+    total: rows.length,
+    created,
+    updated,
+    source: "EXCEL",
+  };
+  await audit(
+    user,
+    "IMPORTAR",
+    "PRODUCTOS",
+    "CATÁLOGO",
+    "IMPORTACION_PRODUCTOS",
+    summary,
+  );
+
+  return {
+    message:
+      "Importación completada: " +
+      created +
+      " productos creados y " +
+      updated +
+      " actualizados. El stock y los movimientos no fueron modificados.",
+    summary,
+  };
+}
+
 async function createReceipt(user: AppUser, payload: DbRow) {
   const warehouseId = asNumber(payload.warehouseId);
   const lines = cleanLines(payload.lines);
@@ -2331,7 +2434,7 @@ export async function executeOperation(body: unknown) {
   if (action === "save_user") permission = "users";
   if (action === "save_warehouse") permission = "warehouses";
   if (action === "import_legacy") permission = "imports";
-  if (action === "create_product" || action === "update_product") {
+  if (action === "create_product" || action === "update_product" || action === "import_products") {
     permission = "products";
   }
   if (action === "adjust_stock") permission = "inventory";
@@ -2357,6 +2460,8 @@ export async function executeOperation(body: unknown) {
       return createProduct(user, payload);
     case "update_product":
       return updateProduct(user, payload);
+    case "import_products":
+      return importProducts(user, payload);
     case "create_receipt":
       return createReceipt(user, payload);
     case "delete_receipt":
